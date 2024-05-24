@@ -1,0 +1,302 @@
+
+  .group-container {
+    font-family: Arial, sans-serif;
+    padding-bottom: 100px;
+    width: 100%;
+    max-width: 400px; 
+    margin: auto;
+  }
+
+  .group-photo-container {
+    width: 100%; /* Full width */
+    height: 300px; /* Fixed height or as required */
+    overflow: hidden; /* Ensures image doesn't spill outside container */
+    min-height: 100%;
+    align-items: center; 
+    justify-content: center;
+  }
+
+  .group-image {
+    width: 100%;
+    height: 100%;
+    /* height: 300px; */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    object-fit: contain;
+  }
+
+  .title-with-time {
+    /* display: flex; */
+    align-items: center; /* 確保標題和時間垂直對齊 */
+    /* gap: 10px; 標題和時間之間的間隔 */
+    margin-bottom: 0;
+  }
+
+  .group-title {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .dining-time {
+    margin-top: 0; /* 移除時間上方的margin */
+    color: green; /* 綠色文字 */
+    font-size: 12px;
+  }
+
+  .group-description {
+    font-size: 15px;
+    margin-bottom: 3px;
+
+  }
+  .group-details {
+    margin: 15px;
+    
+  }
+
+  .group-button{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 水平置中 */
+    justify-content: center; /* 垂直置中 (如果需要) */
+   
+  }
+  .recommend-submit {
+    border-radius: 8px;
+    border-width: thin;
+    background-color: #f8c146;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    margin-bottom: 15px;
+  }
+  .recommend-submit:hover {
+    background-color: #e6b042;
+  }
+  
+  .recommend-submit2 {
+    border-radius: 8px;
+    border-width: thin;
+    background-color: #f8c146;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 15px;
+  }
+
+  .recommend-submit2:hover {
+    background-color: #e6b042;
+  }
+
+  .recommend-submit.disabled {
+    /* background-color: rgba(255, 255, 255, 0.5);   */
+    background-color: #f7d488;
+    /* color: grey;   */
+    cursor: not-allowed;  /* 显示不可点击的光标 */
+  }
+
+  .recommend-submit2.disabled {
+    /* background-color: rgba(255, 255, 255, 0.5);   */
+    background-color: #f7d488;
+    /* color: grey;   */
+    cursor: not-allowed;  /* 显示不可点击的光标 */
+  }
+  
+  
+  .group-messages {
+    margin: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    /* background-color: #f9f9f9; */
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+   
+  }
+  
+  .message-input {
+    margin: 10px;
+    display: flex;
+    /* padding: 5px; */
+    padding: 4px 8px;
+  }
+  
+  .message-input input {
+    flex: 1;
+    /* padding: 8px; */
+    padding: 4px 8px;
+    margin-right: 5px;
+    border-radius: 10px;
+    height: 25px;
+    border-width: thin;
+    /* border: none; */
+    /* color: white; */
+  }
+  
+  .message-input button {
+    padding: 8px;
+  }
+  
+  .mesSend-icon-button {
+    transform: translate(-10px, -4px); 
+  }
+  
+
+  .recommendation-list {
+    display: flex; 
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    padding-top: 0;
+    /* padding: 20px 20px 0;  */
+  }
+  
+  .restaurant-item {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 10px;
+    /* padding-top: 0; */
+    border-radius: 8px;
+    /* min-height : 100px; */
+    /* height: auto; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    box-sizing: border-box;
+  }
+  /* .restaurant-item:last-child {
+    margin-bottom: 0;  
+} */
+
+  /* .restaurant-item2 {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    position: relative;
+  } */
+
+  /* .restaurant-item:last-child {
+    margin-bottom: 0;  
+  } */
+.recommendListDesc {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+  .recommendation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    padding-top: 0;
+}
+
+.recommendation-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    /* margin-bottom: 10px; */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    position: relative;
+    padding-bottom: 0;
+}
+
+.recommendation-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.favorite-button {
+  position: absolute;
+  bottom: 76px; 
+  left: 280px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.more-info {
+  position: absolute;
+  font-style: italic;
+  text-decoration: underline;
+  color: darkgoldenrod;
+  margin-top: auto;
+  right: 10px;
+  bottom: 10px;
+} 
+
+/*   
+  .favorite-button {
+    position: absolute;  
+    bottom: 76px; 
+    left: 280px;
+  }
+
+  .more-info {
+    font-style: italic;
+    color: darkgoldenrod; 
+    position: absolute;
+    right: 10px;
+    bottom: 6px;
+  } */
+
+  .restaurant-tags {
+    color: green;
+    font-size: 0.8rem; /* 缩小字体大小 */
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .restaurant-address {
+    margin-bottom: 5px;
+    margin-top: 3px;
+  }
+
+  .restaurant-name {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
+  .starIcon {
+    margin-bottom: -5px;
+    margin-left: -3px;
+  }
+
+  .retaurant-ratingContainer{
+    gap: 20px;  
+  }
+
+  .recommendList10{
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 0;
+    /* gap: 0; */
+  }
+
+  .List10Description{
+    text-align: center !important;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+
+  .ratingInput {
+    text-align: center;
+    /* margin: 0 auto;  */
+  }
+  .ratingInput input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+    /* text-align: center; */
+  }

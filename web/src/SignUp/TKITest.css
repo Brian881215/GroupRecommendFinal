@@ -1,0 +1,93 @@
+/* TKITest.css */
+  body {
+    background-color: #fff8ef; /* 这是米色的色值 */
+  }
+  .tki-test-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 10px auto;
+    padding: 20px;
+    /* background: #f9f9f9; */
+    /* border: 1px solid #eaeaea; */
+    border-radius: 8px;
+  }
+
+  .tki-intro-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  
+  .tki-intro-container p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .question-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .option-container {
+    margin: 10px 0;
+  }
+  
+  .option-label {
+    display: block; /* 或者使用inline-block根据需要调整 */
+    margin-bottom: 5px; /* 每个选项之间的间隔 */
+    cursor: pointer;
+  }
+  
+  input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+  
+  .tki-submit {
+    width: 100%; /* 让按钮宽度与表单容器宽度一致 */
+    padding: 10px;
+
+    background-color: #f8c146;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .tki-submit:hover {
+    background-color: #e5a634;
+  }
+
+  .tki-error {
+    /* color: red;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px; */
+    color: red; /* 錯誤訊息的顏色 */
+    position: absolute; /* 絕對定位 */
+    top: -30px; /* 相對於 .tki-submit-container 的頂部上移 40px */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 水平居中 */
+    z-index: 1000; /* 確保在其他元素之上 */
+    white-space: nowrap;
+  }
+  
+  .tki-submit-container {
+    position: relative; /* 用于在内部绝对定位错误消息 */
+    text-align: center; /* 中心对齐提交按钮 */
+    margin-top: 40px; /* 在提交按钮上方为错误消息提供空间 */
+    margin-bottom: 40px; /* 如果这是最后一个元素，为错误消息在底部提供空间 */
+  }
+  

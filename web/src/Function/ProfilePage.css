@@ -1,0 +1,178 @@
+.profile-container {
+    width: 100%;
+    max-width: 400px; /* Adjust as necessary */
+    margin: auto;
+    padding-bottom: 100px;
+  }
+  .profile-photo-container {
+    width: 100%; /* Full width */
+    height: 300px;  
+    /* height: auto;  */
+    overflow: hidden; /* Ensures image doesn't spill outside container */
+    min-height: 100%;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    /* background-color: white; */
+  }
+  .profile-photo {
+    width: 100%;
+    height: 100%;
+    /* height: auto; */
+    background-size: cover;  
+    /* background-size: contain;  */
+    /* background-size: auto 100%; */
+    background-position: center; /* Align the image nicely */
+    background-repeat: no-repeat;
+    object-fit: contain;
+    
+  }
+  .profile-details {
+    /* text-align: center; */
+    padding: 15px; /* Add some spacing */
+  }
+  .profile-details h1{
+    padding-bottom: 5px;
+  }
+  .fa-birthday-cake {
+    margin-right: 5px;
+  }
+  .profile-name {
+    margin: 0;
+    padding-top: 10px; /* Space from the top */
+    font-size: 1.5em; /* Adjust as needed */
+  }
+  
+  .profile-age {
+    margin: 0;
+    color: #555; /* Subtle color for age */
+    font-size: 1em; /* Adjust as needed */
+  }
+
+  
+  .profile-header {
+    height: 200px; /* Adjust as necessary */
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .profile-info {
+    padding: 15px;
+  }
+  
+  .basic-info li {
+    list-style: none;
+    /* Add more styling */
+  }
+  
+  .profile-about,
+  .profile-info,
+  .profile-cuisines,
+  .profile-bar {
+  /* ... existing styles ... */
+    padding: 15px;
+    /* background: #f8f9fa; example background */
+  }
+
+  .profile-bar, .profile-info, .profile-cuisines {
+    /* ... existing styles ... */
+      padding-top: 0;
+      padding-bottom: 0;
+      /* background: #f8f9fa; example background */
+    }
+
+  .profile-about {
+    padding-top: 0;
+  }
+  .profile-details{
+    padding-bottom: 0;
+  }
+
+
+  .profile-info p,
+  .profile-about p,
+  .profile-cuisines li,
+  .dining-entry {
+  /* ... existing styles ... */
+    display: flex;
+    align-items: center;
+  }
+
+  .cuisine-button {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 10px;
+      cursor: default;
+      margin: 5px;
+      border-radius: 8px;
+      font-style:normal;
+  }
+
+  .progress-container {
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  .progress-bar {
+    width: 70%;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    position: relative;
+    
+  }
+  
+  .progress {
+    height: 20px;
+    background-color: #e5a634;
+  }
+
+  .progress-bar-wrapper {
+    display: flex;
+    align-items: center;  
+    width: 100%;
+  }
+
+  .progress-info {
+    /* width: 20px; */
+    text-align: left;
+    
+    padding-left: 10px;
+    transform: translateY(-50%);
+    color: black; /* 根据背景色调整文字颜色以保证可见性 */
+    font-size: 0.85rem; /* 字体大小可根据实际效果调整 */
+    margin-top: 20px;
+    font-style: normal;
+  }
+  
+  .points-display {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem; /* 调整大小 */
+    color:  #e5a634; 
+    background-color: white; 
+    padding: 6px 12px;
+    width: 70px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-style: bold;
+}
+
+.points-icon {
+    margin-right: 5px;
+}
+
+.name-and-point {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ProfilePoints{
+  margin-right:  10px;
+}
+  
+  /* .favorite-cuisines ul,
+  .dining-history div {
+  }
+   */
+  /* Continue to style each element as necessary to match the design */
+  

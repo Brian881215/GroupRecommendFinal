@@ -1,0 +1,27 @@
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #d31111; /* 或您想要的任何颜色 */
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    justify-content: space-around; /* 保证按钮间有平均空间 */
+    padding: 10px 0;
+    z-index: 1000;
+  }
+  
+  .bottom-nav button {
+    flex: 1; /* 每个按钮都有相同的宽度 */
+    border: none;
+    background: none;
+    padding: 10px;
+    font-size: 16px; 
+    cursor: pointer;
+  }
+  
+  .bottom-nav button.active {
+    color: #007bff; /* 示例颜色，根据需要调整 */
+  }
+  

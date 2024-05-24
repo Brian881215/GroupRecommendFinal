@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Products</h2>
+    <div id="products"></div>
+</div>
+
+<script>
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            const productsDiv = document.getElementById('products');
+            data.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'card';
+                productDiv.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <button onclick="showRecommendations(${product.id})">Show Recommendations</button>
+                        <div id="recommendations-${product.id}"></div>
+                    </div>
+                `;
+                productsDiv.appendChild(productDiv);
+            });
+        });
+
+    function showRecommendations(productId) {
+        fetch(`/api/products/${productId}/recommendations`)
+            .then(response => response.json())
+            .then(data => {
+                const recommendationsDiv = document.getElementById(`recommendations-${productId}`);
+                recommendationsDiv.innerHTML = '';
+                data.forEach(recommendation => {
+                    const recommendationDiv = document.createElement('div');
+                    recommendationDiv.className = 'alert alert-info';
+                    recommendationDiv.innerText = recommendation.recommendationText;
+                    recommendationsDiv.appendChild(recommendationDiv);
+                });
+            });
+    }
+</script>
+
+</body>
+</html>

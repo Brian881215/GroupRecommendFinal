@@ -1,0 +1,19 @@
+version: '3.1'  # 使用 docker-compose 文件版本 3.1
+
+services:
+  GMSmysql:
+    image: mysql:8.0.36 # 或者使用你選擇的任何其他版本
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Brian1215  # 你的 MySQL root 用戶的密碼
+      MYSQL_DATABASE: GroupRecommend  # 啟動時創建一個數據庫
+      MYSQL_USER: Brian881215  # 創建一個用戶
+      MYSQL_PASSWORD: Brian881215  # 設置用戶的密碼
+    ports:
+      - "3307:3306"  # 映射主機和容器的端口
+    volumes:
+      - gmsData:/var/lib/mysql  # 掛載 volume 來持久化資料庫資料
+
+# 定義用於持久化資料的 volume
+volumes:
+  gmsData:

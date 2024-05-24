@@ -1,0 +1,103 @@
+/* WelcomePage.css */
+body {
+    background-color: #fff8ef; /* 这是米色的色值 */
+}
+.welcome-container {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .images-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 5px; 
+  }
+  
+  .image-left, .images-right {
+    flex: 1;
+  }
+  
+  .image-left img {
+    width: 95%; /* Full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    margin: 30px 0; /* 左右各添加10px间隔 */
+  }
+  
+  .images-right {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .images-right .image-top, .images-right .image-bottom {
+    width: 100%;
+  }
+  
+  .images-right .image-top img, .images-right .image-bottom img {
+    width: 95%; /* Full width of the container */
+    height: auto; /* Maintain aspect ratio */
+  }
+  .image-bottom img{
+    margin: 10px 0;
+  }
+  
+  .welcome-text {
+    text-align: center;
+    padding: 0 20px; /* Add padding for small devices */
+  }
+  
+  .welcome-text h1 {
+    font-size: 2.5rem; /* Adjust size as needed */
+    color: #000; /* Text color */
+    margin-bottom: 0.5rem;
+  }
+  
+  .welcome-text p {
+    font-size: 1rem; /* Adjust size as needed */
+    color: #666; /* Text color */
+    margin-bottom: 2rem;
+    font-weight:bold;
+  }
+  
+  .login-signup button {
+    /* background-color: #f8c146;  */
+    background-color:#000;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight:bold;
+  }
+  
+  .login-signup button:hover {
+    background-color: #e5a634; 
+  }
+
+  .welcome-error {
+    position: absolute;
+    top: -25px;  
+    left: 0;
+    right: 0;
+    color: red;
+    text-align: center;
+    font-size: 0.8rem;
+    z-index: 10;  
+    }
+
+  .form-container {
+    position: relative;
+    
+  }
+
+  .form-container input {
+   
+    padding: 7px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+  }

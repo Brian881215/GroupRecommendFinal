@@ -1,0 +1,148 @@
+/* CreatePage.css */
+  .create-group-container-outer{
+        padding: 5px 15px; 
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+  }
+  .create-group-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto; 
+    /* padding: 10px; */
+    /* padding: 10px 25px 10px 5px; */
+    /* padding: 5px 15px; 
+    width: 100%; */
+    width: 100%;
+    padding-bottom: 100px;
+  }
+  
+  .create-group-container h1 {
+    text-align: center;
+    color: #333;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    width: 100%;
+    background-image: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+    text-align: center;
+    /* padding: 10px 10px; */
+    color: white;
+    font-size: 1.5rem;
+    padding: 3px 4px;
+    /* border-top-left-radius: 8px; */
+    /* border-top-right-radius: 8px; */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .create-group-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-text, .textarea-text, .input-number, .checkbox-group, .input-date, .submit-btn {
+    margin-bottom: 15px;
+  }
+  
+  .create-group-container input,
+  .create-group-container textarea,
+  .create-group-container .checkbox-group,
+  .create-group-container #price,
+  .create-group-container .select
+  {
+    width: 100%; /* Full width */
+    padding: 5px 1px; 
+    margin-bottom: 10px; /* Space between form fields */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 4px; /* Slightly rounded corners for aesthetics */
+    /* margin: 0 auto; */
+  }
+
+  .create-group-container .react-datepicker-wrapper {
+        width: 100%; /* Full width */
+        /* padding: 0px 0px; */
+        /* margin-bottom: 0px;  */
+        margin-bottom: 8px; 
+  }
+  .create-group-container select{
+        margin-bottom: 8px;
+  }
+  .create-group-container h6 {
+        margin: 4px 0; 
+        color: #2c2a2a;    
+  }
+  .input-text input, .textarea-text textarea, .input-number input {
+    width: 100%;
+    /* padding: 8px; */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+
+  }
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 均勻分佈每列 */
+  }
+  .checkbox-row {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px; /* 每行之間增加一些間距 */
+  }
+
+  .checkbox-row:nth-child(1) {
+    flex-basis: 100%; /* 第一行佔滿整行 */
+  }
+
+  .checkbox-row:nth-child(2),
+  .checkbox-row:nth-child(3) {
+    flex-basis: 50%; /* 第二和第三行各佔半行 */
+  }
+  .textarea-text textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  .checkbox-group label {
+    display: block;
+  }
+  .checkbox-group input {
+    margin-left: 12px;
+  }
+
+  .input-date .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .create-group-container button{
+    padding: 6px;
+    background-color: #f8c146;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .create-group-container button:hover {
+    background-color: #e5a634;
+  }
+
+  .error-message {
+    color: #ff0000; /* 紅色字體表示錯誤 */
+    margin-bottom: 10px; /* 在按鈕上方提供一些空間 */
+    text-align: center; /* 如果你想要錯誤訊息居中對齊 */
+  }
+  h6 {
+    text-align: center;
+    width: 100%;
+  }
+  /* Responsive design adjustments 如果用這個後可能會影響到原本container的padding版型就跑走了，所以還是以實驗階段手機的顯示結果為主 */
+  
+  /* @media (max-width: 600px) {
+    .create-group-container {
+      padding: 15px;
+    }
+  } */
+  

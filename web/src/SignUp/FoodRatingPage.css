@@ -1,0 +1,102 @@
+body {
+    background-color: #fff8ef; /* 这是米色的色值 */
+}
+.rating-container h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  .trust-level-section h2 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .rating-container p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    text-align: center;
+  }
+.food-rating-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    /* max-width: 800px; */
+    /* margin: 10px auto; */
+    border-radius: 8px;
+    padding-top: 10px;
+  }
+  
+  .food-type-card {
+    background: #f9f9f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .food-type-card h3 {
+    margin: 0;
+    color: #333;
+  }
+  
+  .food-type-card p {
+    margin: 5px 0;
+  }
+  
+  .food-type-card input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .foodRatingSubmit {
+    padding: 10px 20px;
+    background-color: #f8c146;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .trustInput {
+    text-align: center;
+    /* margin: 0 auto;  */
+  }
+  .trustInput input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    /* text-align: center; */
+  }
+  .foodRatingSubmit:hover {
+    background-color: #e5a634;
+  }
+
+  .my-dialog {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    /* display: block; */
+  }
+  
+  .foodRatingDialog {
+    text-align: center;
+  }
