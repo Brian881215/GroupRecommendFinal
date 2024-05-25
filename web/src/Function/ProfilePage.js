@@ -81,7 +81,14 @@ const ProfilePage = () => {
     // const createCount = 3; 
 
     useEffect(() => {
-        fetch(`${apiUrl}/users/groupCounts/${effectiveUserId}`)
+        // fetch(`${apiUrl}/users/groupCounts/${effectiveUserId}`)
+        fetch(`${apiUrl}/users/groupCounts/${effectiveUserId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include' // 如果需要发送凭证信息
+        })
             .then(response => response.json())
             .then(data => {
                 setJoinCount(data.joinCount);
@@ -94,7 +101,14 @@ const ProfilePage = () => {
     }, [effectiveUserId, apiUrl]);
 
     useEffect(() => {
-        fetch(`${apiUrl}/users/progressBar/${effectiveUserId}`)
+        // fetch(`${apiUrl}/users/progressBar/${effectiveUserId}`)
+        fetch(`${apiUrl}/users/progressBar/${effectiveUserId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include' // 如果需要发送凭证信息
+        })
             .then(response => response.json())
             .then(data => {
                 setGroupUses(data);
@@ -107,16 +121,23 @@ const ProfilePage = () => {
         if (!effectiveUserId) {
             console.error('No user ID found in localStorage.');
             //此邏輯設計很好這樣才可以透過重新登入來渲染畫面
-            navigate('/');  // 如果沒有找到userID，重定向到登錄頁面
+            // navigate('/');  
             return;
         }
       // 這裡假設你有一個後端的API端點 '/api/profile/{userId}'
       // 你需要用實際的用戶ID來取代 '{userId}'
-      fetch(`${apiUrl}/users/${effectiveUserId}`,{
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+    //   fetch(`${apiUrl}/users/${effectiveUserId}`,{
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         }
+    //     })
+    fetch(`${apiUrl}/users/${effectiveUserId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -137,7 +158,7 @@ const ProfilePage = () => {
         })
         .catch(error => {
             console.error('Error fetching profile:', error);
-            navigate('/');  // 處理錯誤，例如API調用失敗後重定向到登錄頁面
+            // navigate('/');  
         });
     }, [navigate, effectiveUserId, apiUrl]);//添加userID依賴確保
 

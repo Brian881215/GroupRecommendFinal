@@ -16,12 +16,13 @@ public class WebConfig {
                 // Configure CORS for all paths and origins
                 registry.addMapping("/**")
                         .allowedOriginPatterns(
-                                "*")
-//                                " https://7c61-2401-e180-8d54-cbc9-d40f-f4ca-d0e6-6df0.ngrok-free.app"
-//                                ,"https://e88e-2401-e180-8d54-cbc9-d40f-f4ca-d0e6-6df0.ngrok-free.app")
+                                "http://localhost:3000"
+                        , "http://localhost:8000",
+                                "http://172.20.10.11:3000"
+                                )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(false);
+                        .allowedHeaders("Content-Type", "Authorization", "Accept", "Origin")
+                        .allowCredentials(true);
             }
         };
     }

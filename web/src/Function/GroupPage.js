@@ -61,7 +61,14 @@ const GroupPage = () => {
 
   const fetchRecommendationsFromDB = useCallback(async () => {
     try {
-      const response = await fetch(`${apiUrl}/groups/recommendDB/${groupId}`);
+      // const response = await fetch(`${apiUrl}/groups/recommendDB/${groupId}`);
+      const response = await fetch(`${apiUrl}/groups/recommendDB/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      });
       if (response.ok) {
         const data = await response.json();
         setRecommendations(data);
@@ -70,7 +77,14 @@ const GroupPage = () => {
         throw new Error('Failed to fetch recommendations from DB');
       }
 
-      const response2 = await fetch(`${apiUrl}/groups/recommend2DB/${groupId}`);
+      // const response2 = await fetch(`${apiUrl}/groups/recommend2DB/${groupId}`);
+      const response2 = await fetch(`${apiUrl}/groups/recommend2DB/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      });
       if (response2.ok) {
         const data2 = await response2.json();
         setRecommendations2(data2);
@@ -87,7 +101,14 @@ const GroupPage = () => {
     // 假设您有一个获取推荐的API endpoint
     try {
 
-      const response = await fetch(`${apiUrl}/groups/recommend/${groupId}`);
+      // const response = await fetch(`${apiUrl}/groups/recommend/${groupId}`);
+      const response = await fetch(`${apiUrl}/groups/recommend/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      });
       if (response.ok) {
         const data = await response.json();
         setRecommendations(data); // 存储推荐数据
@@ -95,7 +116,14 @@ const GroupPage = () => {
         throw new Error('Failed to fetch recommendations');
       }
 
-      const response2 = await fetch(`${apiUrl}/groups/recommend2/${groupId}`);
+      // const response2 = await fetch(`${apiUrl}/groups/recommend2/${groupId}`);
+      const response2 = await fetch(`${apiUrl}/groups/recommend2/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      });
       if (response2.ok) {
         const data2 = await response2.json();
         setRecommendations2(data2); // 存储推荐数据
@@ -110,7 +138,14 @@ const GroupPage = () => {
 
   const fetchGroupInfo = useCallback(async () => {
     try {
-      const response = await fetch(`${apiUrl}/groups/${groupId}`);
+      // const response = await fetch(`${apiUrl}/groups/${groupId}`);
+      const response = await fetch(`${apiUrl}/groups/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      });
       const data = await response.json();
       setGroupInfo(data);
 
@@ -143,7 +178,14 @@ const GroupPage = () => {
   };
   // 获取群组消息
   useEffect(() => {
-    fetch(`${apiUrl}/groups/messages/${groupId}`)
+    // fetch(`${apiUrl}/groups/messages/${groupId}`)
+    fetch(`${apiUrl}/groups/messages/${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // 如果需要发送凭证信息
+    })
       .then(response => {
         if (!response.ok) {
             throw new Error('Failed to fetch messages');
@@ -163,7 +205,14 @@ const GroupPage = () => {
         setErrorMessage(error.message);
       });
 //  取得已確定加入group的團體名單
-      fetch(`${apiUrl}/groups/members/${groupId}`)
+      // fetch(`${apiUrl}/groups/members/${groupId}`)
+      fetch(`${apiUrl}/groups/members/${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include' // 如果需要发送凭证信息
+      })
       .then(response => response.json())
       .then(memberDTOs => {
         setGroupMembers(memberDTOs);
@@ -305,7 +354,7 @@ const GroupPage = () => {
     setOpenSnackbar(false);
   };
 
-  const handleConfirm = (async () => {
+  const handleConfirm = async () => {
     if (groupMembers.length < 2) {
       setError('團體推薦至少要兩個人');
       setOpenSnackbar(true);
@@ -321,8 +370,12 @@ const GroupPage = () => {
         ...prevGroupInfo,
         recommendationFlag: true
       }));
+      // const response = await fetch(`${apiUrl}/groups/recommendationFlag/${groupId}`, {
+      //   method: 'POST'
+      // });
       const response = await fetch(`${apiUrl}/groups/recommendationFlag/${groupId}`, {
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include' // 如果需要发送凭证信息
       });
 
       if (!response.ok) {
@@ -345,7 +398,7 @@ const GroupPage = () => {
     }catch (error) {
       console.error('Error updating recommendation flag', error);
     }
-  },[apiUrl]);
+  };
 
   const handleRatingChange1 = (e) => {
       setRecommendationScore1(e);
@@ -412,11 +465,19 @@ const GroupPage = () => {
         loveCount2
       };
 
-      const response = await fetch(`http://172.20.10.11:8080/api/groups/recommendations`, {
+      // const response = await fetch(`http://172.20.10.11:8080/api/groups/recommendations`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(recommendationData),
+      // });
+      const response = await fetch(`${apiUrl}/groups/recommendations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // 如果需要发送凭证信息
         body: JSON.stringify(recommendationData),
       });
 

@@ -186,7 +186,7 @@ const CreatePage = () => {
             <input
                 type="text"
                 name="groupTitle"
-                placeholder="e.g. 找政大學生吃飯"
+                placeholder="e.g. 找政大學生吃飯、詢問學長姐實習、畢業聚..."
                 value={formData.groupTitle}
                 onChange={handleChange}
                 required
@@ -298,7 +298,7 @@ const CreatePage = () => {
                     type="text"
                     id="meetingPlace"
                     name="meetingPlace"
-                    placeholder="e.g. 政大商願一樓集合"
+                    placeholder="e.g. 政大商院一樓"
                     value={formData.meetingPlace}
                     onChange={handleChange}
                     required

@@ -55,7 +55,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
   const handleApproval = useCallback((groupId) => {
     // 处理用户是群组创建者时的逻辑
     setCurrentApproveGroupId(groupId); // 设置当前正在审批的群组ID
-    fetch(`${apiUrl}/groups/join-requests/${groupId}`)
+    // fetch(`${apiUrl}/groups/join-requests/${groupId}`)
+    fetch(`${apiUrl}/groups/join-requests/${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // 如果需要发送凭证信息
+    })
     .then(response => response.json())
     .then(data => {
       if (Array.isArray(data)) {  // Check if data is an array
@@ -77,7 +84,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleClickOpen = (groupId) => {
 
-    fetch(`${apiUrl}/groups/${groupId}`)
+    // fetch(`${apiUrl}/groups/${groupId}`)
+    fetch(`${apiUrl}/groups/${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // 如果需要发送凭证信息
+    })
       .then(response => response.json())
       .then(group => {
         if (group.memberCount === group.maxNumber) {
@@ -161,7 +175,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
     const fetchUserJoinRequests = async() => {
       try{
         //單個非創建群組的user有提出聲請的groupId有哪些
-        const response = await fetch(`${apiUrl}/users/user-requests/${userId}`);
+        // const response = await fetch(`${apiUrl}/users/user-requests/${userId}`);
+        const response = await fetch(`${apiUrl}/users/user-requests/${userId}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          credentials: 'include' // 如果需要发送凭证信息
+        });
         if(!response.ok) throw new Error('Failed to fetch user join requests');
         // const data = await response.json();
         const groupIdsString = await response.text();
@@ -179,7 +200,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
     fetchUserJoinRequests();
 
     // 获取用户创建的所有群组
-    fetch(`${apiUrl}/groups/created-by/${userId}`)
+    // fetch(`${apiUrl}/groups/created-by/${userId}`)
+    fetch(`${apiUrl}/groups/created-by/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // 如果需要发送凭证信息
+    })
       .then(response => response.json())
       .then(data => {
         setUserGroups(data);
@@ -189,7 +217,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
       });
 
     // 获取不是用戶建立的所有群组
-    fetch(`${apiUrl}/groups/not-created-by/${userId}`)
+    // fetch(`${apiUrl}/groups/not-created-by/${userId}`)
+    fetch(`${apiUrl}/groups/not-created-by/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include' // 如果需要发送凭证信息
+    })
       .then(response => response.json())
       .then(data => {
         setAllGroups(data);

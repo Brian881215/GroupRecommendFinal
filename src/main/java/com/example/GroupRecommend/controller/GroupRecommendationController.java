@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/groups")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")/
 public class GroupRecommendationController {
 
     @Autowired

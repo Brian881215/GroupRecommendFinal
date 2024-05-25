@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 public class GroupController {
     @Autowired
     private RecommendGroupRepository groupRepository;

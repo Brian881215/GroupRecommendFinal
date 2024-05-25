@@ -21,7 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private RecommendUserRepository userRepository;
@@ -106,7 +106,7 @@ public class UserController {
             arr.add(new String[] {question.get("id"), question.get("answer")});
 //            arr.add(question.toArray(new String[0]));
         }
-        System.out.println("Received questions: " + arr);
+//        System.out.println("Received questions: " + arr);
 //        for(String[] s: arr){
 //            System.out.println("test: "+s[1]);
 //        }
