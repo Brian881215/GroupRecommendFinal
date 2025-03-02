@@ -7,47 +7,8 @@ import java.util.ArrayList;
 
 
 public class Utility {
-	
-	// csvFile = "/Users/huangchengen/eclipse-workspace_ee/GroupRecommend/TKI_Brian_Testing.csv";
-//	public void updateTKI(String csvFile) {
-//		ArrayList<Storage> tempDB = new ArrayList<Storage>();
-//	    ArrayList<String[]> arr = new ArrayList<String[]>();
-//        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//            	if(line.contains("A") || line.contains("B")) {
-//	                String[] data = line.split(",");
-//	                arr.add(data);
-//	                Storage storage = new Storage();
-//	                // process the data
-//	                for (int i = 0;i<31;i++) {
-////		                    System.out.println(data[i]);
-//	                	storage.getArrQuestion().add(data[i]);
-//	                }
-//	                //去計算當前storage那筆問卷紀錄的資料
-//	                calFiveMode(storage);
-//
-//	                System.out.printf("TKI five mode: \nCompeting:%d, Collaborating:%d, Compromising:%d"
-//	                		+ ", Avoiding:%d, Accommodating:%d\n",storage.getCompeting(),
-//	                		storage.getCollaborating(),storage.getCompromising(),
-//	                		storage.getAvoiding(),storage.getAccommodating());
-//	                //去計算當前storage那筆問卷紀錄的最後TKI各項分數與綜合分數
-//	                calTKIScore(storage);
-//	                System.out.printf("TKI five mode percentage: \npCompeting:%.3f, pCollaborating:%.3f, pCompromising:%.3f"
-//	                		+ ", pAvoiding:%.3f, pAccommodating:%.3f\n",storage.getpCompeting(),
-//	                		storage.getpCollaborating(),storage.getpCompromising(),
-//	                		storage.getpAvoiding(),storage.getpAccommodating());
-//	                //計算最後零到一之間的TKI值
-//	                calTKI_TotalScore(storage);
-//	                System.out.println("Total TKI score:"+storage.getTKI_socre());
-//	                //存進去暫存的資料庫
-//	                tempDB.add(storage);
-//            	}
-//            }
-//        }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//	}
+//計算每個人的tki值為何？
+
 	public double updateTKI(ArrayList<String[]> arr) {
 
 		Storage storage = new Storage();
@@ -257,7 +218,7 @@ public class Utility {
 		int score_compromising = s.getCompromising();
 		int score_avoiding = s.getAvoiding();
 		int score_accommodating = s.getAccommodating();
-		System.out.print(" "+score_competing+" "+score_collaborating+" "+score_compromising+" "+score_avoiding+" "+score_accommodating);
+//		System.out.print(" "+score_competing+" "+score_collaborating+" "+score_compromising+" "+score_avoiding+" "+score_accommodating);
 		switch(score_competing) {
 			case 0:
 				s.setPCompeting(0.03);
@@ -465,7 +426,7 @@ public class Utility {
 		}
 	}
 	public void  calTKI_TotalScore(Storage s){
-		System.out.println("five mode value:"+s.getPCompeting()+" "+s.getPAccommodating()+" "+s.getPCollaborating()+" "+s.getPAvoiding()+" "+s.getPCompromising());
+//		System.out.println("five mode value:"+s.getPCompeting()+" "+s.getPAccommodating()+" "+s.getPCollaborating()+" "+s.getPAvoiding()+" "+s.getPCompromising());
 		double assertiveness = 0;
 		double cooperativeness = 0;
 		//介在0.25 到0.75之間的都不算分數

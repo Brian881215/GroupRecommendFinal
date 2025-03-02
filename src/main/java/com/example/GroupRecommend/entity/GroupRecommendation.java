@@ -13,7 +13,6 @@ public class GroupRecommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long groupId;
     private Long userId;
     private double recommendationScore1;

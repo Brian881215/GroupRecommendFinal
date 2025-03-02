@@ -19,30 +19,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
-//@CrossOrigin(origins = "*")
 public class GroupController {
     @Autowired
     private RecommendGroupRepository groupRepository;
-
     @Autowired
     private RecommendUserRepository userRepository;
-
     @Autowired
     private RecommendRestaurantRepository recommendRestaurantRepository;
-
     @Autowired
     private GroupService groupService;
-
     @Autowired
     private UserService userService;
-    //    @Transactional
     @PostMapping("/{id}")
 //    @JsonView(Views.Internal.class) // 使用Public视图，users不会被序列化
     public ResponseEntity<RecommendGroup> createGroup(@PathVariable("id") Long id, @RequestBody RecommendGroup group) {
@@ -250,6 +243,13 @@ public class GroupController {
             recommendRestaurants = recommendRestaurantRepository.findByIdIn(idList);
             return ResponseEntity.ok(recommendRestaurants);
         }
+
+        // 更新 recommendationFlag 並保存群組，就可以省略 recommendationFlag這個controller
+//        if (!currentGroup.isRecommendationFlag()) { // 避免重複更新
+//            currentGroup.setRecommendationFlag(true);
+//            groupRepository.save(currentGroup);
+//        }
+
         return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
     }
 
@@ -265,9 +265,17 @@ public class GroupController {
             recommendRestaurants = recommendRestaurantRepository.findByIdIn(idList);
             return ResponseEntity.ok(recommendRestaurants);
         }
+
+        // 更新 recommendationFlag 並保存群組，就可以省略 recommendationFlag這個controller
+//        if (!currentGroup.isRecommendationFlag()) { // 避免重複更新
+//            currentGroup.setRecommendationFlag(true);
+//            groupRepository.save(currentGroup);
+//        }
+
         return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
     }
 
+    //可省
     @PostMapping("/recommendationFlag/{groupId}")
     public ResponseEntity<?> updateRecommendationFlag(@PathVariable Long groupId) {
         RecommendGroup group = groupRepository.findById(groupId).orElse(null);
@@ -285,8 +293,10 @@ public class GroupController {
         if (group == null) {
             return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
         }
+        //這個submitFlag是要對應每個人的不是groupId
         group.setSubmitFlag(true);
         groupRepository.save(group);
         return ResponseEntity.ok(Map.of("success", "Submit flag updated"));
+
     }
 }

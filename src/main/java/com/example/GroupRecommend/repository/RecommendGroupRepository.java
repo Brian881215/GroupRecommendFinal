@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface RecommendGroupRepository extends JpaRepository<RecommendGroup, Long> {
     List<RecommendGroup> findByCreatorIdNot(Long creatorId);
-
     List<RecommendGroup> findByCreatorId(Long id);
     // 定義需要的查詢方法
 }

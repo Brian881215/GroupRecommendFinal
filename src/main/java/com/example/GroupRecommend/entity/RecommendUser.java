@@ -64,7 +64,7 @@ public class RecommendUser {
     private Set<RecommendGroup> groups;
 
     //一個user 可能有他創建的0到多個群組
-    @OneToMany(mappedBy = "creator")  // 用户创建的群组
+    @OneToMany(mappedBy = "creator")  // 用戶創建的群组
     private Set<RecommendGroup> createdGroups = new HashSet<>();
 
     private String joinRequestGroupIds = "";
@@ -86,10 +86,7 @@ public class RecommendUser {
     private String trustRatingsJson = "{}";
 
     private double TKI = 0.0;
-    // 用于处理 JSON 数据的转换
-//    public Map<String, Integer> getExpertiseRatings() {
-//        return jsonToMap(expertiseRatingsJson);
-//    }
+
     public Map<String, Double> getExpertiseRatings() {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -124,5 +121,4 @@ public class RecommendUser {
             throw new RuntimeException("Error converting map to JSON", e);
         }
     }
-
 }

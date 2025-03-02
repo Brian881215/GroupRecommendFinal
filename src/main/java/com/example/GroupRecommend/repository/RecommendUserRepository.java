@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecommendUserRepository extends JpaRepository<RecommendUser, Long> {
-//    RecommendUser findByEmail(String email);
 
     List<Long> findRequestedGroupIdsById(Long id);
-
     Optional<RecommendUser> findByEmail(String email);
-//    RecommendUser findById(long id);
-    //無需做，spring boot 已經提供Optional方法
 }

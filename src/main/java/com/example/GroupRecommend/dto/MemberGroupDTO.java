@@ -8,7 +8,6 @@ import lombok.Setter;
 public class MemberGroupDTO {
     private Long userId;
     private String userName;
-
     private int maxNumber;
     private int memberCount;
     public MemberGroupDTO(Long userId, String userName) {

@@ -13,7 +13,6 @@ public class MemberDTO {
     private Long userId;
     private String userName;
 //    private Set<RecommendUser> users;
-    // 构造函数
     public MemberDTO(Long userId, String userName) {
         this.userId = userId;
         this.userName = userName;

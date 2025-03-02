@@ -41,7 +41,5 @@ public class RecommendRestaurant {
     @Column(nullable = false)
     private String tags;
 
-    private String classification;
-
-
+    private String classification;//餐廳分類之後也可以細化
 }

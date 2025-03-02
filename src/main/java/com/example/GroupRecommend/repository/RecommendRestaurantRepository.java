@@ -9,6 +9,5 @@ public interface RecommendRestaurantRepository extends JpaRepository<RecommendRe
 
     @Query("SELECT r FROM RecommendRestaurant r WHERE r.district IN :districts AND r.averageCost <= :maxCost")
     List<RecommendRestaurant> findByDistrictsAndMaxCost(List<String> districts, double maxCost);
-
     List<RecommendRestaurant> findByIdIn(List<Long> ids);
 }

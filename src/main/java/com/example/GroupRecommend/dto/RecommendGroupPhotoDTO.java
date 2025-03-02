@@ -23,10 +23,9 @@ public class RecommendGroupPhotoDTO {
     private List<String> messages; // 消息可以作为列表返回
     private List<Long> joinRequestUserIds;
     private String purpose;
-    //recommendUser
     private String userName;
     private String districts;
 
     private boolean recommendationFlag;
-    private boolean submitFlag;
+    private boolean submitFlag;//這個應該要是一個map才對
 }

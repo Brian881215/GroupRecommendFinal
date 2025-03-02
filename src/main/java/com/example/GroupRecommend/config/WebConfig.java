@@ -16,8 +16,7 @@ public class WebConfig {
                 // Configure CORS for all paths and origins
                 registry.addMapping("/**")
                         .allowedOriginPatterns(
-                                "http://localhost:3000"
-                        , "http://localhost:8000",
+                                "http://localhost:3000",
                                 "http://172.20.10.11:3000"
                                 )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

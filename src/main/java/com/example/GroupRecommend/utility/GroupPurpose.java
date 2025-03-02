@@ -10,9 +10,7 @@ public enum GroupPurpose {
     DINE_WITH_LOVED_ONES("與好朋友，家人，或是伴侶");
 
     private final String description;
-
     GroupPurpose(String description) {
         this.description = description;
     }
-
 }

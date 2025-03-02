@@ -27,11 +27,7 @@ public class RecommendGroup {
 
     @Column(name = "photo", columnDefinition="LONGTEXT")
     private String photo;
-//    @Lob
-//    @Column(columnDefinition = "TEXT") // 用於存儲大文本數據
-//    private String photo; // Base64 編碼的圖片數據
-//    @Column
-//    private String districts;
+
     @Lob
     @Column
     private String districts; // 假設這是一個字符串列表
