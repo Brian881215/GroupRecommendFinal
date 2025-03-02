@@ -28,7 +28,7 @@ const userId = localStorage.getItem('userId');
   const navigate = useNavigate();
   const dialog = useRef(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false); // 新增的狀態
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [trustLevel, setTrustLevel] = useState({
     EqualMatching: {
         question: '1. 與一般朋友或新認識的朋友聚餐情境下，你願意相信群組他人代替你做決定的程度為何？',
@@ -115,7 +115,7 @@ const userId = localStorage.getItem('userId');
   };
 
   try {
-        const response = await fetch(`http://172.20.10.11:8080/api/users/rating/${userId}`, {
+        const response = await fetch(`${apiUrl}/users/rating/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

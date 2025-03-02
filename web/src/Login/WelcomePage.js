@@ -8,32 +8,37 @@ const WelcomePage = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const [formData, setFormData] = useState({username: "", password: ""})
     const [error, setError] = useState('');
 
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.value]: e.target.value })
+    }
+    
     const apiUrl = process.env.REACT_APP_API_URL;
-    // console.log('API URL:', apiUrl);
+   
     // handleLoginSignup would be the function that handles the click event
     const handleLoginSignup = () => {
         // Logic to handle login or sign up
         console.log('Login/Signup button clicked');
-   
+        // const { username, password } = formData
         if (!username && !password) {
             // 用户没有输入用户名或密码
-            console.log('Redirect to signup');
             navigate('/signup');
-            // 实际操作中可以是路由跳转或更新状态来显示注册表单
-            // 例如: navigate('/signup') 使用 react-router
         } else if(!username || !password){
-            if(!username){
-                setError('請輸入你的註冊信箱');
-            }else{
-                setError('請輸入你的密碼');
+            if (!username || !password) {
+                setError(!username ? '請輸入你的註冊信箱' : '請輸入你的密碼');
+                return;
             }
-            
-        }else{
+            // if(!username){
+            //     setError('請輸入你的註冊信箱');
+            // }else{
+            //     setError('請輸入你的密碼');
+            // }
+        }   
             // 进行登录验证
-            login(username, password);
-        }
+        login(username, password);
         
     };
     const login = (username, password) => {

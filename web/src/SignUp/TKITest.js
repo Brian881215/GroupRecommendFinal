@@ -9,6 +9,7 @@ const TKITest = () => {
     const [error, setError] = useState('');
     const userId = localStorage.getItem("userId");
     const commonQuestionText = '請選出較適合你的敘述？';
+    const apiUrl = process.env.REACT_APP_API_URL;
     const questions = useMemo(() => [
         {
           id: 1,
@@ -257,7 +258,7 @@ const TKITest = () => {
     
     async function submitQuestions(transformedQuestions) {
         try {
-          const response = await fetch(`http://172.20.10.11:8080/api/users/TKIquestions/${userId}`, {
+          const response = await fetch(`${apiUrl}/users/TKIquestions/${userId}`, {
             method: 'PUT', // 或 'PUT' 根据后端需求
             headers: {
               'Content-Type': 'application/json',

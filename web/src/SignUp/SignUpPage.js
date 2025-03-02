@@ -12,11 +12,12 @@ import { readAndCompressImage } from 'browser-image-resizer';
 
 const SignUpPage = () => {
 
+  const apiUrl = process.env.REACT_APP_API_URL;
   // const [emailExists, setEmailExists] = useState(false);
   // const maxDate = new Date();
   const checkEmailExistence = async (email) => {
     try {
-        const response = await fetch(`http://172.20.10.11:8080/api/users/checkEmail/${email}`, {
+        const response = await fetch(`${apiUrl}/users/checkEmail/${email}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }   
         });
@@ -53,7 +54,6 @@ const SignUpPage = () => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
-
   // 处理文件上传
   const handlePhoto = (e) => {
 
@@ -130,7 +130,7 @@ const SignUpPage = () => {
         // 其他字段...
     };
     // 發送 POST 請求到後端
-    fetch('http://172.20.10.11:8080/api/users', {
+    fetch(`${apiUrl}/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

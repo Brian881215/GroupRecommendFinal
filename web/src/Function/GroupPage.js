@@ -451,9 +451,10 @@ const GroupPage = () => {
         return;
     } 
 
+    //這個在跨裝置或瀏覽器上面是無法儲存的所以要用db去存
     setIsRecommendDisabled2(true);
-   
     localStorage.setItem(`isRecommendDisabled2-${userId}-${groupId}`, JSON.stringify(true));
+   
     try {
       const recommendationData = {
         groupId,
@@ -653,6 +654,7 @@ const GroupPage = () => {
                   {renderRecommendationList(recommendations, recommendationScore1, handleRatingChange1, favorites, toggleFavorite, 2)}
                 </>
               )}
+              {/* 提交評分 */}
                <div className="group-button">
                   <button type="submit"  disabled={isRecommendDisabled2} className={`recommend-submit2 ${isRecommendDisabled2 ? 'disabled' : ''}`} onClick={handleSubmit} ><b>提交</b></button>
               </div>
