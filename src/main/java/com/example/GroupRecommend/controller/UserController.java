@@ -127,7 +127,7 @@ public class UserController {
     public ResponseEntity<Map<String, Integer>> getUserProgress(@PathVariable("id") Long id) {
         Map<String, Integer> groupUses = new HashMap<>();
         groupUses.putAll(groupService.getGroupPurposeCounts(id));
-        int creatorCount = recommendGroupRepository.findByCreatorId(id).size();
+        int creatorCount = recommendGroupRepository.findByCreatorIdOrderByDiningTimeDesc(id).size();
         groupUses.put("建立群组次数", creatorCount);
         return ResponseEntity.ok(groupUses);  // Return 200 OK with the list of groups
     }
@@ -139,7 +139,7 @@ public class UserController {
         GroupCountDTO groupCountDTO = new GroupCountDTO();
 
         int totalGroupCount = user.getGroups().size();
-        int creatorCount = recommendGroupRepository.findByCreatorId(id).size();
+        int creatorCount = recommendGroupRepository.findByCreatorIdOrderByDiningTimeDesc(id).size();
         int joinCount = totalGroupCount-creatorCount;
         groupCountDTO.setCreateCount(creatorCount);
         groupCountDTO.setJoinCount(joinCount);
