@@ -5,7 +5,8 @@
     padding-bottom: 100px;
   }
   .profile-photo-container {
-    width: 100%; /* Full width */
+    width: 100%;
+    /* width: 465px; */
     height: 300px;  
     /* height: auto;  */
     overflow: hidden; /* Ensures image doesn't spill outside container */

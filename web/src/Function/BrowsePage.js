@@ -337,6 +337,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
           {allGroups.map(group => (
             <div className="group-card-browse" key={group.id}>
               {/* <img src={group.photo} alt={group.name} className="browseGroup-image"/> */}
+              
               <LazyLoadImage
                 src={group.photo} // 使用实际的图像 URL
                 alt={group.name}
