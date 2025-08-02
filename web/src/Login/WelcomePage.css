@@ -73,10 +73,11 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-weight:bold;
+
   }
   
   .login-signup button:hover {
-    background-color: #e5a634; 
+    background-color: #e5a634 !important; 
   }
 
   .welcome-error {
@@ -96,8 +97,5 @@ body {
   }
 
   .form-container input {
-   
-    padding: 7px;
-    margin-bottom: 10px;
     border: 1px solid #ccc;
   }
