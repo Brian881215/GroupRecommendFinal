@@ -50,7 +50,7 @@ public class UserService {
 
     public UserProgressDTO getProgress(Long id) {
         UserProgressDTO userProgressDTO = new UserProgressDTO();
-        userProgressDTO.setCountCreated(recommendGroupRepository.findByCreatorId(id).size());
+        userProgressDTO.setCountCreated(recommendGroupRepository.findByCreatorIdOrderByDiningTimeDesc(id).size());
         return userProgressDTO;
     }
 

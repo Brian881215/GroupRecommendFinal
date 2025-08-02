@@ -68,7 +68,7 @@ public class GroupController {
 
     @GetMapping("/not-created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupNotCreatedBy (@PathVariable("creatorId") Long creatorId){
-        List<RecommendGroup> groups = groupRepository.findByCreatorIdNot(creatorId);
+        List<RecommendGroup> groups = groupRepository.findByCreatorIdNotOrderByDiningTimeDesc(creatorId);
         List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
         for(RecommendGroup group:  groups){
             DTOGroups.add(groupService.convertToDtoPhoto(group));
@@ -78,7 +78,7 @@ public class GroupController {
 
     @GetMapping("/created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupCreatedBy (@PathVariable("creatorId") Long creatorId){
-        List<RecommendGroup> groups = groupRepository.findByCreatorId(creatorId);
+        List<RecommendGroup> groups = groupRepository.findByCreatorIdOrderByDiningTimeDesc(creatorId);
         List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
         for(RecommendGroup group:  groups){
             DTOGroups.add(groupService.convertToDtoPhoto(group));
