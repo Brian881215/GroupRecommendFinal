@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequestMapping("/api/groups")
 public class GroupController {
@@ -53,9 +55,10 @@ public class GroupController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RecommendGroupPhotoDTO> getGroup(@PathVariable("id") Long id) {
-        RecommendGroup group = groupRepository.findById(id).orElse(null);
+//        RecommendGroup group = groupRepository.findById(id).orElse(null);
+        RecommendGroup group = groupService.getGroupByCreatorId(id);
         RecommendGroupPhotoDTO DTOGroup;
-        if(group == null){
+        if(group== null){
             return  ResponseEntity.notFound().build();
         }else {
            DTOGroup = groupService.convertToDtoPhoto(group);
@@ -68,34 +71,43 @@ public class GroupController {
 
     @GetMapping("/not-created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupNotCreatedBy (@PathVariable("creatorId") Long creatorId){
-        List<RecommendGroup> groups = groupRepository.findByCreatorIdNotOrderByDiningTimeDesc(creatorId);
-        List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
-        for(RecommendGroup group:  groups){
-            DTOGroups.add(groupService.convertToDtoPhoto(group));
-        }
+        /*
+          original methods of for loop
+          List<RecommendGroup> groups = groupService.getGroupNotCreateBy(creatorId);
+          List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<>();
+          for(RecommendGroup group: groups){
+             DTOGroups.add(groupService.convertToDtoPhoto(group));
+           }
+            return ResponseEntity.ok(DTOGroups);
+        */
+        List<RecommendGroupPhotoDTO> DTOGroups = groupService.getGroupNotCreateBy(creatorId).stream().
+                map(groupService::convertToDtoPhoto).toList();
         return ResponseEntity.ok(DTOGroups);
     }
 
     @GetMapping("/created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupCreatedBy (@PathVariable("creatorId") Long creatorId){
-        List<RecommendGroup> groups = groupRepository.findByCreatorIdOrderByDiningTimeDesc(creatorId);
-        List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
-        for(RecommendGroup group:  groups){
-            DTOGroups.add(groupService.convertToDtoPhoto(group));
-        }
+//        List<RecommendGroup> groups = groupRepository.findByCreatorIdOrderByDiningTimeDesc(creatorId);
+//        List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
+//        for(RecommendGroup group:  groups){
+//            DTOGroups.add(groupService.convertToDtoPhoto(group));
+//        }
+        List<RecommendGroupPhotoDTO> DTOGroups = groupService.getGroupCreateBy(creatorId).stream().
+                map(groupService::convertToDtoPhoto).toList();
         return ResponseEntity.ok(DTOGroups);
     }
 
     @PostMapping("/messages/{groupId}")
     public ResponseEntity<?> addMessageToGroup(@PathVariable Long groupId, @RequestBody String message){
-        RecommendGroup group = groupRepository.findById(groupId).orElse(null);
-        if(group == null){
-            return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
-        }
+//        RecommendGroup group = groupRepository.findById(groupId).orElse(null);
+        RecommendGroup group = groupService.findGroupByGroupId(groupId);
+//        if(group == null){
+//            return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
+//        }
         group.addMessage(message);
         groupRepository.save(group);
         //回傳原本的message就可以了{ ....}
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(Map.of("message",message));
     }
     @GetMapping("/messages/{groupId}")
     public ResponseEntity<?> getMessages(@PathVariable Long groupId){
@@ -155,7 +167,7 @@ public class GroupController {
         // 将用户对象集合转换为DTO集合
         List<MemberDTO> memberDTOs = members.stream()
                 .map(member -> new MemberDTO(member.getId(),member.getName()))
-                .collect(Collectors.toList());
+                .collect(toList());
 //        for(MemberDTO memberDTO: memberDTOs){
 //           System.out.println(memberDTO.getUserId());
 //           System.out.println(memberDTO.getUserName());

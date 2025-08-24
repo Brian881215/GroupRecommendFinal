@@ -486,4 +486,31 @@ public class GroupService {
 
         return getRestaurantsByIndexes(recommendRestaurantList, topTenIndexes);
     }
+
+
+    public List<RecommendGroup> getGroupNotCreateBy(Long creatorId){
+        boolean creatorExists = userRepository.existsById(creatorId); // 假設你有 UserRepository
+        if (!creatorExists) {
+            throw new ResourceNotFoundException("Creator with id " + creatorId + " does not exist");
+        }
+        //如果回傳空的也可以接受
+        return groupRepository.findByCreatorIdNotOrderByDiningTimeDesc(creatorId);
+    }
+    public List<RecommendGroup> getGroupCreateBy(Long creatorId){
+        boolean creatorExists = userRepository.existsById(creatorId); // 假設你有 UserRepository
+        if (!creatorExists) {
+            throw new ResourceNotFoundException("Creator with id " + creatorId + " does not exist");
+        }
+        //如果回傳空的也可以接受
+        return groupRepository.findByCreatorIdOrderByDiningTimeDesc(creatorId);
+    }
+
+    public RecommendGroup getGroupByCreatorId(Long creatorId){
+        return groupRepository.findById(creatorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found with creatorId: " + creatorId));
+    }
+
+    public RecommendGroup findGroupByGroupId(Long groupId){
+        return groupRepository.findById(groupId).orElseThrow(()-> new ResourceNotFoundException("Group not found with groupId" + groupId));
+    }
 }
