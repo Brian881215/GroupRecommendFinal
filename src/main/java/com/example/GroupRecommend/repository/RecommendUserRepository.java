@@ -2,7 +2,6 @@ package com.example.GroupRecommend.repository;
 
 import com.example.GroupRecommend.entity.RecommendUser;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
 

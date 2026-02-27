@@ -33,11 +33,7 @@ const GroupPage = () => {
   const navigate = useNavigate();
   const [groupMembers, setGroupMembers] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-
   const [open, setOpen] = useState(false);
-  // const [isRecommendDisabled, setIsRecommendDisabled] = useState(false);
-  // const [isRecommendDisabled2, setIsRecommendDisabled2] = useState(false);
-
   const [recommendations, setRecommendations] = useState([]);
   const [recommendations2, setRecommendations2] = useState([]);
   const [recommendationScore1, setRecommendationScore1] = useState("");
@@ -67,7 +63,7 @@ const GroupPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include' // 如果需要发送凭证信息
+        credentials: 'include'
       });
       if (response.ok) {
         const data = await response.json();
@@ -107,7 +103,7 @@ const GroupPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include' // 如果需要发送凭证信息
+        credentials: 'include' 
       });
       if (response.ok) {
         const data = await response.json();
@@ -466,13 +462,6 @@ const GroupPage = () => {
         loveCount2
       };
 
-      // const response = await fetch(`http://172.20.10.11:8080/api/groups/recommendations`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(recommendationData),
-      // });
       const response = await fetch(`${apiUrl}/groups/recommendations`, {
         method: 'POST',
         headers: {
@@ -485,9 +474,6 @@ const GroupPage = () => {
       if (!response.ok) {
         throw new Error('Failed to submit recommendations');
       }
-
-      // const data = await response.json();
-      // console.log('Recommendation saved:', data);
       setIsRecommendDisabled2(true);
     } catch (error) {
       console.error('Error submitting recommendations:', error);
@@ -640,7 +626,7 @@ const GroupPage = () => {
       </Dialog>
    
     {groupInfo.recommendationFlag && (
-            
+            //這可以使得兩個推薦清單 可以上下隨機產生 依照group群組id 就不會是a推薦永遠都在上面之類的情形
             <div className="groupPageOuter">
               <div className="recommendListDesc">請填寫兩個推薦清單評分並各選擇一到多個餐廳到最愛，創建群組者需填寫你們最終討論出來的餐廳</div>
               {Number(groupId) % 2 !== 0 ? (

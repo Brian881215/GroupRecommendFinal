@@ -1,9 +1,6 @@
 package com.example.GroupRecommend.controller;
 
-import com.example.GroupRecommend.dto.MemberDTO;
-import com.example.GroupRecommend.dto.MemberGroupDTO;
-import com.example.GroupRecommend.dto.RecommendGroupDTO;
-import com.example.GroupRecommend.dto.RecommendGroupPhotoDTO;
+import com.example.GroupRecommend.dto.*;
 import com.example.GroupRecommend.entity.RecommendGroup;
 import com.example.GroupRecommend.entity.RecommendRestaurant;
 import com.example.GroupRecommend.entity.RecommendUser;
@@ -12,12 +9,9 @@ import com.example.GroupRecommend.repository.RecommendRestaurantRepository;
 import com.example.GroupRecommend.repository.RecommendUserRepository;
 import com.example.GroupRecommend.service.GroupService;
 import com.example.GroupRecommend.service.UserService;
-import com.example.GroupRecommend.views.Views;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
@@ -39,12 +33,11 @@ public class GroupController {
     @Autowired
     private UserService userService;
     @PostMapping("/{id}")
-//    @JsonView(Views.Internal.class) // 使用Public视图，users不会被序列化
     public ResponseEntity<RecommendGroup> createGroup(@PathVariable("id") Long id, @RequestBody RecommendGroup group) {
         //你首先保存了 group 实体，然后添加了用户到 group。这种顺序在某些情况下可能会导致 Hibernate 或 JPA
         //框架无法正确更新关系表。尤其是在新建实体的时候，先保存实体再建立关联可能导致关联未能持久化。
         Set<RecommendUser> users = new HashSet<>();
-        RecommendUser user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        RecommendUser user = userService.findUserByUserId(id);
         users.add(user);
         group.setUsers(users);
         group.setCreator(user);
@@ -55,31 +48,14 @@ public class GroupController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RecommendGroupPhotoDTO> getGroup(@PathVariable("id") Long id) {
-//        RecommendGroup group = groupRepository.findById(id).orElse(null);
+        //這裡是抓creator id
         RecommendGroup group = groupService.getGroupByCreatorId(id);
-        RecommendGroupPhotoDTO DTOGroup;
-        if(group== null){
-            return  ResponseEntity.notFound().build();
-        }else {
-           DTOGroup = groupService.convertToDtoPhoto(group);
-        }
+        RecommendGroupPhotoDTO DTOGroup = groupService.convertToDtoPhoto(group);
        return ResponseEntity.ok(DTOGroup);
-//        return groupRepository.findById(id)
-//                .map(ResponseEntity::ok)  // 如果用戶存在，返回200 OK
-//                .orElseGet(() -> ResponseEntity.notFound().build());  // 如果用戶不存在，返回404 Not Found
     }
 
     @GetMapping("/not-created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupNotCreatedBy (@PathVariable("creatorId") Long creatorId){
-        /*
-          original methods of for loop
-          List<RecommendGroup> groups = groupService.getGroupNotCreateBy(creatorId);
-          List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<>();
-          for(RecommendGroup group: groups){
-             DTOGroups.add(groupService.convertToDtoPhoto(group));
-           }
-            return ResponseEntity.ok(DTOGroups);
-        */
         List<RecommendGroupPhotoDTO> DTOGroups = groupService.getGroupNotCreateBy(creatorId).stream().
                 map(groupService::convertToDtoPhoto).toList();
         return ResponseEntity.ok(DTOGroups);
@@ -87,11 +63,6 @@ public class GroupController {
 
     @GetMapping("/created-by/{creatorId}")
     public ResponseEntity<List<RecommendGroupPhotoDTO>> getGroupCreatedBy (@PathVariable("creatorId") Long creatorId){
-//        List<RecommendGroup> groups = groupRepository.findByCreatorIdOrderByDiningTimeDesc(creatorId);
-//        List<RecommendGroupPhotoDTO> DTOGroups = new ArrayList<RecommendGroupPhotoDTO>();
-//        for(RecommendGroup group:  groups){
-//            DTOGroups.add(groupService.convertToDtoPhoto(group));
-//        }
         List<RecommendGroupPhotoDTO> DTOGroups = groupService.getGroupCreateBy(creatorId).stream().
                 map(groupService::convertToDtoPhoto).toList();
         return ResponseEntity.ok(DTOGroups);
@@ -99,33 +70,29 @@ public class GroupController {
 
     @PostMapping("/messages/{groupId}")
     public ResponseEntity<?> addMessageToGroup(@PathVariable Long groupId, @RequestBody String message){
-//        RecommendGroup group = groupRepository.findById(groupId).orElse(null);
         RecommendGroup group = groupService.findGroupByGroupId(groupId);
-//        if(group == null){
-//            return ResponseEntity.status(404).body(Map.of("error", "Group not found"));
-//        }
         group.addMessage(message);
         groupRepository.save(group);
         //回傳原本的message就可以了{ ....}
+        //這裡寫物件回傳是為了 未來如果你要回傳不只有字串訊息時可以方便去擴充
         return ResponseEntity.ok(Map.of("message",message));
     }
     @GetMapping("/messages/{groupId}")
     public ResponseEntity<?> getMessages(@PathVariable Long groupId){
-        return groupRepository.findById(groupId)
-                .map(group -> ResponseEntity.ok().body(group.getMessages()))
-                .orElse(ResponseEntity.notFound().build());
+        //這寫法不好 因為controller可以交給全域global handler去控管例外處理
+        //        return groupRepository.findById(groupId)
+        //                .map(group -> ResponseEntity.ok().body(group.getMessages()))
+        //                .orElse(ResponseEntity.notFound().build());
+        RecommendGroup recommendGroup = groupService.findGroupByGroupId(groupId);
+        return ResponseEntity.ok(recommendGroup.getMessages());
     }
 
-    // 获取加入请求
+    // 取得加入清單
     @GetMapping("/join-requests/{groupId}")
     public ResponseEntity<List<MemberGroupDTO>> getJoinRequests(@PathVariable Long groupId) {
         RecommendGroup currentGroup = groupRepository.findById(groupId).orElse(null);
 
         List<Long> requests = groupService.getJoinRequests(groupId);
-//        System.out.println(requests.size());
-        for(Long i : requests){
-//            System.out.print(i+ ", ");
-        }
         List<MemberGroupDTO> userDTOs = new ArrayList<MemberGroupDTO>();
         for(Long userId : requests){
             RecommendUser user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
@@ -141,38 +108,28 @@ public class GroupController {
         return ResponseEntity.ok(userDTOs);
     }
 
-    // 批准加入请求
-    @PostMapping("/{groupId}/approve/{userId}")
-    public ResponseEntity<?> approveJoinRequest(@PathVariable Long groupId, @PathVariable Long userId) {
+    // 批准加入
+    //針對既有table資料去修改
+    @PutMapping("/{groupId}/approve/{userId}")
+    public ResponseEntity<APIResponse> approveJoinRequest(@PathVariable Long groupId, @PathVariable Long userId) {
         groupService.approveJoinRequest(groupId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new APIResponse("add user in group successfully"));
     }
 
-    // 添加加入请求
-    @PostMapping("/{groupId}/request/{userId}")
-    public ResponseEntity<?> addJoinRequest(@PathVariable Long groupId, @PathVariable Long userId) {
+    // 申請加入
+    //針對既有table資料去修改
+    @PutMapping("/{groupId}/request/{userId}")
+    public ResponseEntity<APIResponse> addJoinRequest(@PathVariable Long groupId, @PathVariable Long userId) {
         groupService.addJoinRequest(groupId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new APIResponse("add user in approving group list "));
     }
 
     @GetMapping("/members/{groupId}")
     public ResponseEntity<List<MemberDTO>> getGroupMembers(@PathVariable Long groupId) {
-        // 获取群组成员
-//        Set<RecommendUser> members = groupService.getGroupMembers(groupId);
-//
-//        // 将用户对象集合转换为用户ID集合
-//        return members.stream().map(RecommendUser::getId).collect(Collectors.toSet());
         Set<RecommendUser> members = groupService.getGroupMembers(groupId);
-
-        // 将用户对象集合转换为DTO集合
         List<MemberDTO> memberDTOs = members.stream()
                 .map(member -> new MemberDTO(member.getId(),member.getName()))
                 .collect(toList());
-//        for(MemberDTO memberDTO: memberDTOs){
-//           System.out.println(memberDTO.getUserId());
-//           System.out.println(memberDTO.getUserName());
-//           System.out.println(memberDTO.getUsers.size());
-//        }
         return ResponseEntity.ok(memberDTOs);
     }
 
@@ -181,7 +138,6 @@ public class GroupController {
 
         RecommendGroup currentGroup = groupRepository.findById(groupId).orElse(null);
         String purpose = groupService.getEngPurpose(groupId);
-//        System.out.println("My purpose:"+purpose);
         Set<RecommendUser>  recommendUserSet = groupService.getUsersByGroupId(groupId);
         List<Double> TKIs = new ArrayList<Double>();
         List<Double> trusts = new ArrayList<Double>();

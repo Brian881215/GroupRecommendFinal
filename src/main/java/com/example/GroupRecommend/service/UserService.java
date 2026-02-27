@@ -1,8 +1,8 @@
 package com.example.GroupRecommend.service;
 
 import com.example.GroupRecommend.dto.UserProgressDTO;
-import com.example.GroupRecommend.entity.RecommendGroup;
 import com.example.GroupRecommend.entity.RecommendUser;
+import com.example.GroupRecommend.exception.ResourceNotFoundException;
 import com.example.GroupRecommend.repository.RecommendGroupRepository;
 import com.example.GroupRecommend.repository.RecommendUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +12,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
 
-import java.util.List;
-
 import java.util.Optional;
 
-// UserService.java
 @Service
 public class UserService {
-    // 这里是伪代码，你需要替换为实际的数据库访问代码
+
     @Autowired
     private RecommendUserRepository recommendUserRepository;
 
     @Autowired
     private RecommendGroupRepository recommendGroupRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     public RecommendUser findByEmail(String email) {
-        // 实现查找用户逻辑
 //        return recommendUserRepository.findByEmail(email); // 假设用户存在
         Optional<RecommendUser> userOpt = recommendUserRepository.findByEmail(email);
         return userOpt.orElse(null);
@@ -39,8 +35,6 @@ public class UserService {
         return user.getJoinRequestGroupIds();
     }
     public boolean checkPassword(String rawPassword, String encryptedPassword) {
-        // 实现密码匹配逻辑
-        // 在生产环境中，你应该使用密码哈希函数如BCrypt
         return rawPassword.equals(encryptedPassword);
     }
 
@@ -65,5 +59,10 @@ public class UserService {
 //            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
 //        }
         return ratings.getOrDefault(purpose, 0.0);
+    }
+
+
+    public RecommendUser findUserByUserId(Long userId){
+        return recommendUserRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User not found"));
     }
 }
