@@ -1,4 +1,4 @@
-
+/* 
 
 .group-view {
     font-family: Arial, sans-serif;
@@ -94,6 +94,45 @@
 
   .browseGroupPurpose {
     margin-bottom: 0;
-    /* padding-bottom: 0; */
+  }
+   */
+
+   .group-view-container {
+    /* background-color: #f0f2f5; */
+    min-height: 100vh;
   }
   
+  .group-view-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  
+  .group-view-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+  
+  /* 讓 Card 的 Action 區域（按鈕）背景變淺色，增加點擊感 */
+  .ant-card-actions {
+    background: #fafafa !important;
+    border-top: 1px solid #f0f0f0 !important;
+  }
+  
+  /* 標題加粗 */
+  .ant-typography h4 {
+    margin-top: 4px !important;
+    color: #1f1f1f;
+  }
+  
+  /* 針對小螢幕微調 */
+  @media (max-width: 576px) {
+    .group-view-container {
+      padding: 10px;
+    }
+    .ant-typography h2 {
+      font-size: 1.5rem !important;
+    }
+  }

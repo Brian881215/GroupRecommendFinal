@@ -118,11 +118,10 @@
    */
 
    .browse-page-container {
-    background-color: #f5f5f5; /* 淺灰色底色襯托卡片 */
+    /* background-color: #f5f5f5;  */
     min-height: 100vh;
-    padding-bottom: 80px; /* 留位置給 BottomNav */
-  }
-  
+    padding-bottom: 80px; 
+   }
   .content-wrapper {
     max-width: 1200px;
     margin: 0 auto;
