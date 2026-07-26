@@ -7,14 +7,9 @@ import { message, Button, Input} from 'antd';
 
 const WelcomePage = () => {
     const navigate = useNavigate();
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-
     const [formData, setFormData] = useState({username: '', password: ''})
-    // const [error, setError] = useState('');
 
     const handleChange = (e) => {
-        // setFormData({...formData, [e.target.value]: e.target.value })
         setFormData((prevFormData) => ({
             ...prevFormData, // 保留其他欄位
             [e.target.name]: e.target.value // 更新當前輸入框的值
@@ -36,20 +31,13 @@ const WelcomePage = () => {
             } else {
                 message.error('請輸入你的密碼');
             }
-            // if (!username || !password) {
-            //     setError(!username ? '請輸入你的註冊信箱' : '請輸入你的密碼');
-            //     return;
-            // }
         } else {
             login(username, password);
-        }  
-      
-        
+        }     
     };
 
     //可以寫成async/await寫法 讓程式碼更簡潔 如果不需要多個promise去並行處理 可以用async代替.then
     const login = (username, password) => {
-        // 模拟登录过程
         fetch(`${apiUrl}/users/login`, {
             method: 'POST',
             headers: {
@@ -86,7 +74,6 @@ const WelcomePage = () => {
         .catch((error) => {
             console.error('Login failed:', error);
             //抓出你的error資訊顯示在介面上
-            // setError(error.message);
             message.error(error.message);
         });
       };
@@ -112,7 +99,6 @@ const WelcomePage = () => {
             <p>Discover the best food around you</p>
             </div>
             <div className="form-container">
-                {/* {error && <div className="welcome-error">{error}</div>} */}
                 <Input
                     name="username"
                     type="text"
@@ -130,23 +116,8 @@ const WelcomePage = () => {
                     // size="medium"
                     style={{ marginBottom: '10px' }}
                 />
-                {/* <input
-                name = "username"
-                type="text"
-                placeholder="Email"
-                value={formData.username}
-                onChange={handleChange}
-                />
-                <input
-                name = "password"
-                type="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                /> */}
             </div>
             <div className="login-signup">
-                {/* 之後再全部改不用另寫css樣式，且拆成sign up & login Button */}
                 <Button type="primary" size="large" onClick={handleLoginSignup} style={{ width: '100%' }}>
                     Login/Sign up
                 </Button>

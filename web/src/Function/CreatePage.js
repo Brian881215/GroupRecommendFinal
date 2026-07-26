@@ -1,319 +1,231 @@
-// CreatePage.js
-import React , { useState, useRef} from 'react';
+import React, { useState } from 'react';
+import { 
+  Form, Input, Select, Checkbox, Button, DatePicker, 
+  Upload, Row, Col, Typography, message, Card 
+} from 'antd';
+import { UploadOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { readAndCompressImage } from 'browser-image-resizer';
 import BottomNav from '../Bottom/BottomNav';
 import './CreatePage.css';
-import '../Bottom/BottomNav.css';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { readAndCompressImage } from 'browser-image-resizer';
+
+const { Title, Text } = Typography;
+const { TextArea } = Input;
 
 const CreatePage = () => {
+  const [form] = Form.useForm();
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const userId = localStorage.getItem('userId');
+  const [loading, setLoading] = useState(false);
+  const [photoBase64, setPhotoBase64] = useState('');
 
-    const apiUrl = process.env.REACT_APP_API_URL;
+  // 區域選項資料
+  const districtOptions = ['大同區', '中山區', '中正區', '信義區', '大安區', '松山區', '文山區'];
 
-    const userId = localStorage.getItem('userId'); 
-    const [error, setError] = useState('');
-    const [formData, setFormData] = useState({
-        groupTitle: '',
-        description: '',
-        purpose: '',
-        photo: '',
-        meetingPlace: '',
-        maxNumber: '',
-        districts: [],
-        price: '',
-        diningTime: new Date()
-    });
-    const initialFormData = {
-        groupTitle: '',
-        description: '',
-        purpose: '',
-        photo: '',
-        meetingPlace: '',
-        maxNumber: '',
-        districts: [],
-        price: '',
-        diningTime: new Date()
+  // 處理照片壓縮與轉 Base64
+  const handlePhotoUpload = async (file) => {
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      message.error('只能上傳 JPG 或 PNG 格式的照片！');
+      return Upload.LIST_IGNORE;
+    }
+
+    const config = {
+      quality: 0.7,
+      maxWidth: 800,
+      maxHeight: 600,
+      autoRotate: true,
+    };
+
+    try {
+      const resizedImage = await readAndCompressImage(file, config);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoBase64(reader.result);
       };
-    const fileInputRef = useRef();  // 創建一個ref
+      reader.readAsDataURL(resizedImage);
+      return false; // 停止自動上傳
+    } catch (err) {
+      message.error('照片處理錯誤');
+      return Upload.LIST_IGNORE;
+    }
+  };
 
-    const handleChange = (e) => {
+  const onFinish = async (values) => {
+    if (!photoBase64) {
+      message.warning('請上傳封面照片');
+      return;
+    }
 
-        const { name, value } = e.target;
-
-        if (name === 'maxNumber' || name === 'price') {
-            if (!/^\d*$/.test(value)) {
-                return; // 如果不是数字，则不更新状态
-            }
-        }
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-
-
+    setLoading(true);
+    const groupData = {
+      title: values.groupTitle,
+      description: values.description,
+      purpose: values.purpose,
+      photo: photoBase64,
+      meetingPlace: values.meetingPlace,
+      maxNumber: values.maxNumber,
+      districts: values.districts ? values.districts.join(', ') : '',
+      price: values.price,
+      diningTime: values.diningTime.toISOString(),
     };
 
-    const handlePhoto = (e) => {
-        
-        const file = e.target.files[0];
-        if (!file) return;
-      
-        if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-          alert('只能上傳JPG或是PNG格式的照片!');
-          e.target.value = '';
-          return;
-        }
-      
-        const config = {
-          quality: 0.7,
-          maxWidth: 800,
-          maxHeight: 600,
-          autoRotate: true,
-          debug: true,
-        };
-      
-        readAndCompressImage(file, config)
-          .then(resizedImage => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setFormData({ ...formData, photo: reader.result });
-            };
-            reader.readAsDataURL(resizedImage);
-          })
-          .catch(err => {
-            console.error('Error processing image', err);
-            alert('照片處理錯誤');
-          });
-      };
+    try {
+      const response = await fetch(`${apiUrl}/groups/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(groupData),
+      });
 
-    const handleCheckboxChange = (event) => {
-        const { name } = event.target;
-        const isChecked = event.target.checked;
-        
-        // 更新 districts 列表
-        let updatedDistricts = isChecked
-            ? [...formData.districts, name]
-            : formData.districts.filter((district) => district !== name);
+      if (!response.ok) throw new Error('創建群組錯誤');
 
-        // 更新表單數據
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            districts: updatedDistricts,
-        }));
-    };
-    // Function to handle the change in dining time
-    const handleDiningTimeChange = (date) => {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            diningTime: date,
-        }));
-    };
-    const validateForm = () => {
-        const maxNumber = parseInt(formData.maxNumber, 10);
-        if (isNaN(maxNumber) || maxNumber < 2 || maxNumber > 10) {
-            setError('群組最大人數只能輸入2-10之間的任意整數');
-            return false;
-        }
+      message.success('群組創建成功！已獲得 25 積分');
+      form.resetFields();
+      setPhotoBase64('');
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const price = parseInt(formData.price, 10);
-        if (isNaN(price) || price < 100) {
-            setError('每人平均價格上限必須是100以上的整數');
-            return false;
-        }
-
-        setError('');
-        return true;
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-        // 在這裡構造一個對象來匹配後端預期的格式
-        const groupData = {
-            title: formData.groupTitle,
-            description: formData.description, 
-            purpose: formData.purpose,
-            // 確保您將圖片轉換為 Base64 字符串或處理圖片上傳的邏輯
-            photo: formData.photo,
-            meetingPlace: formData.meetingPlace,
-            maxNumber: formData.maxNumber,
-            districts: formData.districts.join(', '),
-            price: formData.price,
-            diningTime: formData.diningTime.toISOString(), // 確保將日期轉換為 ISO 字符串
-        };
-    
-        // 發送 POST 請求到後端
-        fetch(`${apiUrl}/groups/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(groupData),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('創建群組錯誤');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // console.log('Group created successfully:', data);
-            // localStorage.setItem('groupId', data.id);
-            // 重置檔案輸入
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
-            }
-            // 重置建立群組資料
-            setFormData(initialFormData);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            setError(error.message);
-        });
-    };
-    
-   return (
-    
-    <div className="create-group-container-outer">
-      <div className="create-group-container">
-        <h1>Gathering</h1>
-        <form onSubmit={handleSubmit}>
-            <label>群組標題:</label>
-            <input
-                type="text"
-                name="groupTitle"
-                placeholder="e.g. 找政大學生吃飯、詢問學長姐實習、畢業聚..."
-                value={formData.groupTitle}
-                onChange={handleChange}
-                required
-            />
-           
-            <label>群組聚餐描述:</label>
-            <textarea
-                name="description"
-                placeholder="e.g. 最近期末考壓力好大，希望可以找幾個朋友聊聊，一起探索文山美食"
-                value={formData.description}
-                onChange={handleChange}
-                required
-            />
-            <select name="purpose" value={formData.purpose} onChange={handleChange} required>
-                <option value="">聚餐情境</option>
-                <option value="找一般朋友或新朋友">找一般朋友或新朋友</option>
-                <option value="為了互相解決特定問題">為了互相解決特定問題</option>
-                <option value="學長姐學弟妹或是上對下關係的人">學長姐學弟妹或是上對下關係的人</option>
-                <option value="與好朋友，家人，或是伴侶">與好朋友，家人，或是伴侶</option>
-            </select>
-            <label htmlFor="photo-upload">群組封面照片:</label>
-            <input type="file" id="photo-upload" ref={fileInputRef} onChange={handlePhoto} required/>
-            <div>
-                <label>推薦餐廳的區域(可複選/不選):</label>
-                <div className="checkbox-group">
-                    <div className="checkbox-row">
-                        {['大同區', '中山區', '中正區'].map((districtName) => (
-                            <label key={districtName}>
-                                <input
-                                    type="checkbox"
-                                    name={districtName}
-                                    checked={formData.districts.includes(districtName)}
-                                    onChange={handleCheckboxChange}  
-                                />
-                                {districtName}
-                            </label>
-                        ))}
-                    </div>
-                    <div className="checkbox-row">
-                        {['信義區', '大安區'].map((districtName) => (
-                            <label key={districtName}>
-                                <input
-                                    type="checkbox"
-                                    name={districtName}
-                                    checked={formData.districts.includes(districtName)}
-                                    onChange={handleCheckboxChange}
-                                />
-                                {districtName}
-                            </label>
-                        ))}
-                    </div>
-                    <div className="checkbox-row">
-                        {['松山區', '文山區'].map((districtName) => (
-                            <label key={districtName}>
-                                <input
-                                    type="checkbox"
-                                    name={districtName}
-                                    checked={formData.districts.includes(districtName)}
-                                    onChange={handleCheckboxChange}
-                                />
-                                {districtName}
-                            </label>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div>
-                <label htmlFor="maxNumber">群組最大人數:</label>
-                <input
-                    type="text"
-                    id="maxNumber"
-                    name="maxNumber"
-                    placeholder="e.g. 5"
-                    value={formData.maxNumber}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            {/* Price section */}
-            <div>
-                <label htmlFor="price">每人平均價格上限:</label>
-                <input
-                    type="text"
-                    id="price"
-                    name="price"
-                    placeholder="e.g. 500"
-                    value={formData.price}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            {/* Dining Time section */}
-            <div>
-                <label>預期聚餐時間:</label>
-                <DatePicker
-                    selected={formData.diningTime}
-                    onChange={handleDiningTimeChange}
-                    showTimeSelect
-                    timeFormat="HH:mm"
-                    timeIntervals={15}
-                    timeCaption="time"
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="meetingPlace">集合地點:</label>
-                <input
-                    type="text"
-                    id="meetingPlace"
-                    name="meetingPlace"
-                    placeholder="e.g. 政大商院一樓"
-                    value={formData.meetingPlace}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-{/* 注意是要用外層容器的 button來當做css特效，順便控制button的大小 */}
-            <h6>如果創建群組可獲得25積分，而加入群組為10積分，
-                此攸關最後抽獎機率!!
-            </h6>
-            <button type="submit" className="create-submit"><b>創建您的群組</b></button>
-            {error && <div className="error-message">{error}</div>}
-        </form>
+  return (
+    <div className="create-page-wrapper">
+      <div className="create-page-header">
+          <Title level={2}>Gathering</Title>
+          {/* <Text type="secondary">填寫資料來創建您的聚餐活動</Text> */}
       </div>
+      <Card className="create-card" bordered={false}>
+
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+          initialValues={{ diningTime: null, districts: [] }}
+        >
+          <Row gutter={24}>
+            {/* 左側欄位 */}
+            <Col xs={24} md={12}>
+              <Form.Item
+                label="群組標題"
+                name="groupTitle"
+                rules={[{ required: true, message: '請輸入標題' }]}
+              >
+                <Input placeholder="e.g. 找政大學生吃飯..." />
+              </Form.Item>
+
+              <Form.Item
+                label="聚餐情境"
+                name="purpose"
+                rules={[{ required: true, message: '請選擇情境' }]}
+              >
+                <Select placeholder="請選擇聚餐情境">
+                  <Select.Option value="找一般朋友或新朋友">找一般朋友或新朋友</Select.Option>
+                  <Select.Option value="為了互相解決特定問題">為了互相解決特定問題</Select.Option>
+                  <Select.Option value="學長姐學弟妹或是上對下關係的人">學長姐學弟妹或是上對下關係的人</Select.Option>
+                  <Select.Option value="與好朋友，家人，或是伴侶">與好朋友，家人，或是伴侶</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="群組最大人數"
+                name="maxNumber"
+                rules={[
+                  { required: true, message: '請輸入人數' },
+                  { pattern: /^[2-9]|10$/, message: '請輸入 2-10 之間的整數' }
+                ]}
+              >
+                <Input placeholder="e.g. 5" type="number" />
+              </Form.Item>
+
+              <Form.Item
+                label="每人平均價格上限"
+                name="price"
+                rules={[
+                  { required: true, message: '請輸入價格' },
+                  { pattern: /^[1-9][0-9]{2,}$/, message: '價格必須是 100 以上的整數' }
+                ]}
+              >
+                <Input prefix="$" placeholder="e.g. 500" type="number" />
+              </Form.Item>
+            </Col>
+
+            {/* 右側欄位 */}
+            <Col xs={24} md={12}>
+              <Form.Item
+                label="預期聚餐時間"
+                name="diningTime"
+                rules={[{ required: true, message: '請選擇時間' }]}
+              >
+                <DatePicker 
+                  showTime={{ format: 'HH:mm' }} 
+                  format="YYYY-MM-DD HH:mm" 
+                  style={{ width: '100%' }} 
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="集合地點"
+                name="meetingPlace"
+                rules={[{ required: true, message: '請輸入地點' }]}
+              >
+                <Input placeholder="e.g. 政大商院一樓" />
+              </Form.Item>
+
+              <Form.Item label="群組封面照片" required>
+                <Upload
+                  beforeUpload={handlePhotoUpload}
+                  maxCount={1}
+                  listType="picture"
+                  onRemove={() => setPhotoBase64('')}
+                >
+                  <Button icon={<UploadOutlined />} block>點擊上傳照片</Button>
+                </Upload>
+              </Form.Item>
+
+              <Form.Item label="推薦餐廳的區域 (可複選)" name="districts">
+                <Checkbox.Group options={districtOptions} className="district-checkboxes" />
+              </Form.Item>
+            </Col>
+
+            {/* 跨行欄位 */}
+            <Col span={24}>
+              <Form.Item
+                label="群組聚餐描述"
+                name="description"
+                rules={[{ required: true, message: '請輸入描述' }]}
+              >
+                <TextArea 
+                  rows={4} 
+                  placeholder="e.g. 最近期末考壓力好大，希望可以找幾個朋友聊聊..." 
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <div className="info-section">
+            <InfoCircleOutlined style={{ color: '#faad14', marginRight: 8 }} />
+            <Text type="secondary" size="small">
+              創建群組可獲得 25 積分，加入群組為 10 積分，這攸關抽獎機率！
+            </Text>
+          </div>
+
+          <Form.Item>
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              size="large" 
+              block 
+              loading={loading}
+              className="submit-btn"
+            >
+              創建您的群組
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+      <div style={{ height: 80 }} /> {/* 底部導覽留白 */}
       <BottomNav />
     </div>
   );
 };
+
 export default CreatePage;

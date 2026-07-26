@@ -246,35 +246,6 @@ const GroupPage = () => {
 
   const toggleFavorite = (index, groupId, list) => {
     const recommendOrder = groupId % 2;
-
-    // 你说得对，else if 和 else 是互斥的，所以在一个执行流中它们不会同时执行。那为什么上面的代码会有问题呢？让我们仔细检查一下。
-    // 确实，在逻辑上，两个代码块应该是等价的，都是根据 list 和 recommendOrder 来更新状态。
-    // 但是，React 的状态更新是异步的，这意味着在一次渲染中多次调用 setState 可能不会立即反映最新的状态，导致在复杂条件判断下状态可能没有预期那样更新。
-    // if (list === 1  && recommendOrder === 1) { //表示groupId是奇數
-    //   const newFavorites = [...favorites];
-    //   newFavorites[index] = !newFavorites[index];
-    //   setFavorites(newFavorites);
-    //   setLoveCount1(newFavorites.filter(fav => fav).length);
-    //   console.log("Favorites (list 1, odd groupId):", newFavorites);
-    // } else if(list === 2  && recommendOrder === 1){ //表示groupId是奇數
-    //   const newFavorites2 = [...favorites2];
-    //   newFavorites2[index] = !newFavorites2[index];
-    //   setFavorites2(newFavorites2);
-    //   setLoveCount2(newFavorites2.filter(fav => fav).length);
-    //   console.log("Favorites2 (list 2, odd groupId):", newFavorites2);
-    // } else if(list === 1  && recommendOrder === 0){ //表示groupId是偶數
-      
-    //   const newFavorites2 = [...favorites2];
-    //   newFavorites2[index] = !newFavorites2[index];
-    //   setFavorites2(newFavorites2);
-    //   setLoveCount2(newFavorites2.filter(fav => fav).length);
-    //   console.log("Favorites2 (list 1, even groupId):", newFavorites2);
-    // }else{ //表示groupId是偶數
-    //   const newFavorites = [...favorites];
-    //   newFavorites[index] = !newFavorites[index];
-    //   setFavorites(newFavorites);
-    //   console.log("Favorites (list 2, even groupId):", newFavorites);
-    // }
     if (recommendOrder === 1) { // 如果 groupId 是奇数
       if (list === 1) {
         const newFavorites = [...favorites];
@@ -306,7 +277,6 @@ const GroupPage = () => {
     }
   };
 
-  // 发送消息
   const handleSendMessage = () => {
     const trimmedMessage = newMessage.trim();
     if (!trimmedMessage) {
@@ -356,7 +326,6 @@ const GroupPage = () => {
       setOpenSnackbar(true);
       return;
     }
-    // 在这里添加加入群组的逻辑
     setOpen(false);
     // setIsRecommendDisabled(true); 
 
@@ -467,7 +436,7 @@ const GroupPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // 如果需要发送凭证信息
+        credentials: 'include',
         body: JSON.stringify(recommendationData),
       });
 
@@ -481,9 +450,7 @@ const GroupPage = () => {
   };
 
   function cleanTags(tagsString) {
-    // 尝试去除可能的外围方括号和单引号
     const cleaned = tagsString.replace(/[\]['"]/g, '');
-    // 分割清洗后的字符串并连接
     return cleaned.split(',').join(' | ');
   }
   // console.log('Current User ID:', userId);
