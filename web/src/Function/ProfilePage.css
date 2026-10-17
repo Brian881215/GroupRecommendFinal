@@ -16,6 +16,11 @@
   gap: 16px;
 }
 
+/* 標題與 BrowsePage 一致:antd Title level 2、靠左 */
+.profile-header-title.ant-typography {
+  margin-bottom: 0;
+}
+
 .profile-main {
   display: flex;
   flex-direction: column;
@@ -26,9 +31,14 @@
 @media (min-width: 992px) {
   .profile-layout {
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 24px;
     padding: 24px;
+  }
+
+  .profile-header {
+    flex: 0 0 100%;
   }
 
   .profile-side {

@@ -87,6 +87,7 @@ const ProfilePage = () => {
 
     // 使用 URL 中的 userId 或从 localStorage 获取的 userId
     const effectiveUserId = urlUserId || localStorage.getItem('userId');
+    const isOwnProfile = String(effectiveUserId) === String(localStorage.getItem('userId'));
 
     const [joinCount, setJoinCount] = useState(0);
     const [createCount, setCreateCount] = useState(0);
@@ -214,6 +215,11 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <div className="profile-layout">
+        <header className="profile-header">
+          <Title level={2} className="profile-header-title">
+            {isOwnProfile ? '我的個人資料' : '個人資料'}
+          </Title>
+        </header>
         {/* 左欄:個人卡(電腦版捲動時固定) */}
         <aside className="profile-side">
           <Card className="profile-card" cover={<ProfilePhoto photo={profile.photo} name={profile.name} />}>
