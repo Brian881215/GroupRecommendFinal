@@ -1,179 +1,194 @@
-.profile-container {
-    width: 100%;
-    max-width: 400px; /* Adjust as necessary */
-    margin: auto;
-    padding-bottom: 100px;
-  }
-  .profile-photo-container {
-    width: 100%;
-    /* width: 465px; */
-    height: 300px;  
-    /* height: auto;  */
-    overflow: hidden; /* Ensures image doesn't spill outside container */
-    min-height: 100%;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    /* background-color: white; */
-  }
-  .profile-photo {
-    width: 100%;
-    height: 100%;
-    /* height: auto; */
-    background-size: cover;  
-    /* background-size: contain;  */
-    /* background-size: auto 100%; */
-    background-position: center; /* Align the image nicely */
-    background-repeat: no-repeat;
-    object-fit: contain;
-    
-  }
-  .profile-details {
-    /* text-align: center; */
-    padding: 15px; /* Add some spacing */
-  }
-  .profile-details h1{
-    padding-bottom: 5px;
-  }
-  .fa-birthday-cake {
-    margin-right: 5px;
-  }
-  .profile-name {
-    margin: 0;
-    padding-top: 10px; /* Space from the top */
-    font-size: 1.5em; /* Adjust as needed */
-  }
-  
-  .profile-age {
-    margin: 0;
-    color: #555; /* Subtle color for age */
-    font-size: 1em; /* Adjust as needed */
-  }
-
-  
-  .profile-header {
-    height: 200px; /* Adjust as necessary */
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .profile-info {
-    padding: 15px;
-  }
-  
-  .basic-info li {
-    list-style: none;
-    /* Add more styling */
-  }
-  
-  .profile-about,
-  .profile-info,
-  .profile-cuisines,
-  .profile-bar {
-  /* ... existing styles ... */
-    padding: 15px;
-    /* background: #f8f9fa; example background */
-  }
-
-  .profile-bar, .profile-info, .profile-cuisines {
-    /* ... existing styles ... */
-      padding-top: 0;
-      padding-bottom: 0;
-      /* background: #f8f9fa; example background */
-    }
-
-  .profile-about {
-    padding-top: 0;
-  }
-  .profile-details{
-    padding-bottom: 0;
-  }
-
-
-  .profile-info p,
-  .profile-about p,
-  .profile-cuisines li,
-  .dining-entry {
-  /* ... existing styles ... */
-    display: flex;
-    align-items: center;
-  }
-
-  .cuisine-button {
-      background-color: #f0f0f0;
-      border: none;
-      padding: 10px;
-      cursor: default;
-      margin: 5px;
-      border-radius: 8px;
-      font-style:normal;
-  }
-
-  .progress-container {
-    margin-bottom: 10px;
-    position: relative;
-  }
-  
-  .progress-bar {
-    width: 70%;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    position: relative;
-    
-  }
-  
-  .progress {
-    height: 20px;
-    background-color: #e5a634;
-  }
-
-  .progress-bar-wrapper {
-    display: flex;
-    align-items: center;  
-    width: 100%;
-  }
-
-  .progress-info {
-    /* width: 20px; */
-    text-align: left;
-    
-    padding-left: 10px;
-    transform: translateY(-50%);
-    color: black; /* 根据背景色调整文字颜色以保证可见性 */
-    font-size: 0.85rem; /* 字体大小可根据实际效果调整 */
-    margin-top: 20px;
-    font-style: normal;
-  }
-  
-  .points-display {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem; /* 调整大小 */
-    color:  #e5a634; 
-    background-color: white; 
-    padding: 6px 12px;
-    width: 70px;
-    border-radius: 20px;
-    border: 1px solid;
-    font-style: bold;
+/* 手機:單欄由上往下;約 992px 以上:左欄個人卡 + 右欄內容 */
+/* border-box:底部留白算在最小高度裡面。若用預設的 content-box,
+   頁面會固定是「整個畫面高 + 留白」,內容再少都會多出一段可以捲動。 */
+.profile-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 88px; /* 留給底部導覽列(高 77px) */
 }
 
-.points-icon {
-    margin-right: 5px;
+.profile-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+@media (min-width: 992px) {
+  .profile-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .profile-side {
+    flex: 0 0 340px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .profile-main {
+    flex: 1;
+  }
+}
+
+.profile-loading {
+  display: flex;
+  justify-content: center;
+  padding-top: 120px;
+}
+
+/* 個人卡 */
+.profile-card,
+.profile-section-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* 照片:直式 4:5,cover 裁切填滿 */
+.profile-photo-container {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f5ecd7;
+}
+
+/* 手機上照片不要佔滿整個螢幕高度 */
+@media (max-width: 991px) {
+  .profile-photo-container {
+    max-height: 420px;
+  }
+}
+
+.profile-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 沒有照片或載入失敗時的預設封面 */
+.profile-photo-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8c146 0%, #f0a43a 100%);
+}
+
+.profile-photo-fallback-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .name-and-point {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 12px;
 }
 
-.ProfilePoints{
-  margin-right:  10px;
+.profile-name.ant-typography {
+  margin: 0 0 4px;
 }
-  
-  /* .favorite-cuisines ul,
-  .dining-history div {
-  }
-   */
-  /* Continue to style each element as necessary to match the design */
-  
+
+.profile-nickname {
+  margin-left: 4px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.profile-age {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.points-display {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e5a634;
+  background: #fff;
+  border: 1px solid #e5a634;
+  border-radius: 20px;
+}
+
+.profile-about {
+  margin-top: 16px;
+}
+
+.profile-bio.ant-typography {
+  margin: 6px 0 0;
+  white-space: pre-wrap;
+}
+
+/* 最愛的料理類型 */
+.cuisine-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cuisine-tag.ant-tag {
+  margin: 0;
+  padding: 4px 12px;
+  font-size: 0.95rem;
+  border-radius: 14px;
+}
+
+/* 任務進度 */
+.task-group + .task-group {
+  margin-top: 20px;
+}
+
+.task-group-title {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.task-progress {
+  margin-bottom: 10px;
+}
+
+.task-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.task-progress-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.task-achieved-tag.ant-tag {
+  margin: 0;
+}
+
+.task-progress .ant-progress {
+  margin: 2px 0 0;
+}
