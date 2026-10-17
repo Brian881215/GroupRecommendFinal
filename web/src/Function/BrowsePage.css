@@ -117,11 +117,21 @@
   }
    */
 
+   /* border-box:底部留白算在最小高度裡面,群組很少時不會多出一段可以捲動 */
    .browse-page-container {
-    /* background-color: #f5f5f5;  */
+    box-sizing: border-box;
     min-height: 100vh;
-    padding-bottom: 80px; 
+    padding-bottom: 88px; /* 留給底部導覽列(高 77px) */
    }
+  /* 讀取中:Spin 在畫面正中央(dvh 會扣掉手機瀏覽器的網址列) */
+  .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
   .content-wrapper {
     max-width: 1600px;
     margin: 0 auto;
