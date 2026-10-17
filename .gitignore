@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### handoff (local session notes) ###
-handoff/
+/handoff/
