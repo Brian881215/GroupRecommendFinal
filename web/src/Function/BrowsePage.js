@@ -1,9 +1,9 @@
 // export default BrowsePage;
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { 
-  Card, Row, Col, Typography, Button, Modal, List, 
-  Avatar, Tag, message, Empty, Spin, Space , Divider
+import {
+  Card, Typography, Button, Modal, List,
+  Avatar, Tag, message, Empty, Spin
 } from 'antd';
 import { 
   CheckCircleOutlined, 
@@ -17,6 +17,41 @@ import BottomNav from '../Bottom/BottomNav';
 import './BrowsePage.css'; // 確保裡面沒有衝突的寬度設定
 
 const { Title, Text, Paragraph } = Typography;
+
+// Defined at module level (not inside BrowsePage) so React keeps a stable
+// component identity across renders and the broken-image state isn't reset.
+const GroupCover = ({ photo, title, children }) => {
+  const [failedPhoto, setFailedPhoto] = useState(null);
+  const showFallback = !photo || failedPhoto === photo;
+
+  return (
+    <div className="group-cover">
+      {showFallback ? (
+        <div className="group-cover-fallback">
+          <span className="group-cover-fallback-title">{title}</span>
+        </div>
+      ) : (
+        <LazyLoadImage
+          src={photo}
+          alt={title}
+          effect="blur"
+          wrapperClassName="group-cover-img-wrap"
+          className="group-cover-img"
+          onError={() => setFailedPhoto(photo)}
+        />
+      )}
+      {children}
+    </div>
+  );
+};
+
+const SectionHeader = ({ title, count }) => (
+  <div className="section-header">
+    <span className="section-header-accent" />
+    <Title level={4} className="section-header-title">{title}</Title>
+    <Tag className="section-header-count">{count} 個</Tag>
+  </div>
+);
 
 const BrowsePage = () => {
   const navigate = useNavigate();
@@ -228,23 +263,14 @@ const BrowsePage = () => {
         hoverable
         className="group-antd-card"
         cover={
-          <div style={{ position: 'relative', height: '180px', overflow: 'hidden' }}>
-            <LazyLoadImage
-              src={group.photo}
-              effect="blur"
-              wrapperProps={{ style: { display: 'block', width: '100%', height: '100%' } }}
-              style={{ width: '100%', height: '180px', objectFit: 'cover' }}
-            />
-            
-          
-  
+          <GroupCover photo={group.photo} title={group.title}>
             {/* 左上角顯眼的「已申請」緞帶標籤 */}
             {!isOwner && isRequested && (
               <div className="requested-status-tag">
                 已提出申請
               </div>
             )}
-          </div>
+          </GroupCover>
         }
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
@@ -300,25 +326,28 @@ const BrowsePage = () => {
           <Tag color="gold">{group.purpose}</Tag>
         </Paragraph>
   
-        <div style={{ marginTop: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>
+        <div className="browse-card-footer">
+          <span className="browse-card-creator">
             <Text strong>創建者: </Text>
-            <Text 
-              className="browseUsername" 
+            <Text
+              className="browseUsername"
               style={{ cursor: 'pointer', color: '#1890ff', fontWeight: 'bold' }}
               onClick={() => !isOwner && navigate(`/profile/${group.creatorId || group.userId}`)}
             >
               {group.userName}
             </Text>
           </span>
-          
-          <Space>
-            <UserOutlined />
-            <Text>{group.memberCount}/{group.maxNumber}</Text>
-            <Divider type="vertical" />
-            <DollarOutlined />
-            <Text strong>${group.price}</Text>
-          </Space>
+
+          <span className="browse-card-meta">
+            <span className="browse-card-meta-item">
+              <UserOutlined />
+              <Text>{group.memberCount}/{group.maxNumber}</Text>
+            </span>
+            <span className="browse-card-meta-item">
+              <DollarOutlined />
+              <Text strong>${group.price}</Text>
+            </span>
+          </span>
         </div>
       </Card>
     );
@@ -361,25 +390,23 @@ const BrowsePage = () => {
         <Title level={2}>瀏覽聚餐群組</Title>
 
         <section>
-          <Title level={4}>你創建的群組</Title>
-          <Row gutter={[16, 16]}>
-            {userGroups.length > 0 ? userGroups.map(g => (
-              <Col xs={24} sm={12} md={8} lg={6} key={g.id}>
-                <GroupCard group={g} isOwner={true} />
-              </Col>
-            )) : <Empty description="尚無創建群組" />}
-          </Row>
+          <SectionHeader title="你創建的群組" count={userGroups.length} />
+          {userGroups.length > 0 ? (
+            <div className="group-grid">
+              {userGroups.map(g => (
+                <GroupCard key={g.id} group={g} isOwner={true} />
+              ))}
+            </div>
+          ) : <Empty description="尚無創建群組" />}
         </section>
 
-        <section style={{ marginTop: 40 }}>
-          <Title level={4}>可加入的群組</Title>
-          <Row gutter={[16, 16]}>
+        <section className="browse-section-joinable">
+          <SectionHeader title="可加入的群組" count={allGroups.length} />
+          <div className="group-grid">
             {allGroups.map(g => (
-              <Col xs={24} sm={12} md={8} lg={6} key={g.id}>
-                <GroupCard group={g} isOwner={false} />
-              </Col>
+              <GroupCard key={g.id} group={g} isOwner={false} />
             ))}
-          </Row>
+          </div>
         </section>
       </div>
 

@@ -123,19 +123,148 @@
     padding-bottom: 80px; 
    }
   .content-wrapper {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 20px;
   }
-  
+
+  /* 依螢幕寬度自動換欄:手機 1 欄、平板 2 欄、電腦 3~4 欄、超寬螢幕 5 欄。
+     auto-fill 會保留空的欄位,所以只有一兩張卡時它仍維持正常卡片寬度靠左,
+     不會被拉成一整條。 */
+  .group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .browse-section-joinable {
+    margin-top: 40px;
+  }
+
+  /* 區塊標題:左側金色色條 + 群組數量標籤 */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-header-accent {
+    width: 5px;
+    height: 22px;
+    border-radius: 3px;
+    background: #f8c146;
+  }
+
+  .section-header-title.ant-typography {
+    margin: 0;
+  }
+
+  .section-header-count {
+    margin: 0;
+    border-radius: 10px;
+    color: #a87b0a;
+    background: #fff7e0;
+    border-color: #f8c146;
+  }
+
+  /* 卡片等高:同一排的卡片高度一致,底部資訊列固定貼底 */
   .group-antd-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-  
+
+  .group-antd-card .ant-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
   .group-antd-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  /* 封面:固定寬高比,圖片以 cover 裁切 */
+  .group-cover {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #f5ecd7;
+  }
+
+  /* 封面高度由 aspect-ratio 決定,子層用絕對定位填滿;
+     若用 height:100% 會因為父層沒有明確高度而變成 0。
+     !important 是為了蓋過 LazyLoadImage 寫在行內的 display:inline-block。 */
+  .group-cover-img-wrap {
+    position: absolute !important;
+    inset: 0;
+    display: block !important;
+    width: 100%;
+    height: 100%;
+  }
+
+  .group-cover-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 沒有圖片或圖片載入失敗時的預設封面 */
+  .group-cover-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #f8c146 0%, #f0a43a 100%);
+  }
+
+  .group-cover-fallback-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  /* 卡片底部資訊列:放不下時整個項目換行,而不是把文字拆成兩半 */
+  .browse-card-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px 12px;
+  }
+
+  .browse-card-creator {
+    white-space: nowrap;
+  }
+
+  .browse-card-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    white-space: nowrap;
+  }
+
+  .browse-card-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
   
   /* .card-action-overlay {
