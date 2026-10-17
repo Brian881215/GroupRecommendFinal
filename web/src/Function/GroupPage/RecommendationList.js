@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Button, InputNumber, Tag } from 'antd';
 import { HeartOutlined, HeartFilled, StarFilled } from '@ant-design/icons';
+import SectionTitle from './SectionTitle';
 
 function cleanTags(tagsString) {
   if (!tagsString) return [];
@@ -23,8 +24,11 @@ export default function RecommendationList({
   const numberOffset = listNumber === 2 ? 7 : 0;
 
   return (
-    <div className="recommendation-list-section">
-      <h3 className="recommendList10"><b>團體推薦清單{listNumber}</b></h3>
+    <Card
+      className="group-card recommendation-list-section"
+      bordered={false}
+      title={<SectionTitle>{`團體推薦清單${listNumber}`}</SectionTitle>}
+    >
       <div className="recommendation-list">
         {restaurants.map((restaurant, index) => (
           <Card key={restaurant.id} className="recommendation-card" size="small">
@@ -54,12 +58,14 @@ export default function RecommendationList({
             />
           </Card>
         ))}
+      </div>
+      <div className="recommendation-inputs">
         <div className="ratingInput">
           <label>推薦滿意度</label>
           <InputNumber min={1} max={10} placeholder="1-10" value={score} onChange={onScoreChange} />
         </div>
         {extra}
       </div>
-    </div>
+    </Card>
   );
 }

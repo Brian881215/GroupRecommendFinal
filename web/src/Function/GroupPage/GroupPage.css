@@ -1,73 +1,155 @@
-.group-container {
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-  padding-bottom: 100px;
+/* 手機:單欄由上往下(群組資訊 → 推薦清單 → 聊天室);
+   約 992px 以上:左欄群組資訊 sticky + 右欄推薦清單與聊天室 */
+/* border-box:底部留白算在最小高度裡面,避免固定多出一段可以捲動的空白 */
+.group-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 88px; /* 留給底部導覽列(高 77px) */
 }
 
-.group-photo-container {
-  width: 100%;
-  height: 300px;
+.group-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}
+
+.group-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.group-side,
+.group-main,
+.groupPageOuter {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+@media (min-width: 992px) {
+  .group-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .group-side {
+    flex: 0 0 360px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .group-main {
+    flex: 1;
+  }
+}
+
+/* 卡片 */
+.group-card {
+  border-radius: 12px;
   overflow: hidden;
 }
 
-.group-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background-position: center;
+.group-card > .ant-card-head {
+  border-bottom: none;
+  min-height: 0;
+  padding-top: 16px;
 }
 
-.title-with-time {
+.group-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.group-section-accent {
+  width: 5px;
+  height: 18px;
+  border-radius: 3px;
+  background: #f8c146;
+}
+
+/* 群組資訊 */
+.group-cover-icon {
+  font-size: 56px;
+  color: #fff;
+}
+
+.group-card .group-title.ant-typography {
+  margin: 0 0 8px;
+}
+
+.group-card .group-description.ant-typography {
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.group-info-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 12px 0 0;
+  border-top: 1px solid #f0f0f0;
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
 }
 
-.group-title {
-  margin: 0 !important;
+.group-info-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
 }
 
-.dining-time {
-  color: green;
-  font-size: 12px;
-  white-space: nowrap;
+.group-info-icon {
+  color: #e5a634;
 }
 
-.group-description {
-  font-size: 15px;
+.group-info-label {
+  flex: 0 0 auto;
+  color: #888;
 }
 
-.group-details {
-  margin: 15px;
+.group-info-value {
+  min-width: 0;
+  margin-left: auto;
+  text-align: right;
+  word-break: break-word;
 }
 
-.group-button {
+.group-actions {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 10px;
 }
 
-.recommend-submit,
-.recommend-submit2 {
+/* 金色按鈕 */
+.recommend-submit.ant-btn,
+.recommend-submit2.ant-btn {
   background-color: #f8c146;
   border-color: #f8c146;
-  margin-bottom: 15px;
+  font-weight: 600;
 }
 
-.recommend-submit:hover,
-.recommend-submit2:hover {
+.recommend-submit.ant-btn:not(:disabled):hover,
+.recommend-submit2.ant-btn:not(:disabled):hover {
   background-color: #e6b042 !important;
   border-color: #e6b042 !important;
 }
 
-.recommend-submit:disabled,
-.recommend-submit2:disabled {
+.recommend-submit.ant-btn:disabled,
+.recommend-submit2.ant-btn:disabled {
   background-color: #f7d488 !important;
   border-color: #f7d488 !important;
+  color: #fff !important;
 }
 
 .group-member-item {
@@ -80,44 +162,33 @@
   background-color: #fafafa;
 }
 
-.group-messages {
-  margin: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.message-input {
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-}
-
-.message-input .ant-input {
-  flex: 1;
-  border-radius: 10px;
-}
-
+/* 推薦清單 */
 .recommendListDesc {
-  text-align: center;
-  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  background-color: #fffbe6;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.recommendListDescIcon {
+  margin-top: 4px;
+  color: #faad14;
 }
 
 .recommendation-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  padding-top: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
 }
 
 .recommendation-card {
   position: relative;
   border-radius: 12px;
+  border: 1px solid #f0e6cf;
   transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
@@ -162,9 +233,14 @@
   margin-right: 2px;
 }
 
-.recommendList10 {
-  text-align: center;
-  margin: 0 0 10px;
+.recommendation-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
 }
 
 .ratingInput {
@@ -178,4 +254,66 @@
 
 .ratingInput .ant-input-number {
   width: 80px;
+}
+
+/* 聊天室 */
+.group-messages {
+  height: 340px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+@media (min-width: 992px) {
+  .group-messages {
+    height: 480px;
+  }
+}
+
+.group-messages .message.ant-list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+  border: none;
+}
+
+.group-messages .message-other.ant-list-item {
+  align-items: flex-start;
+}
+
+.group-messages .message-mine.ant-list-item {
+  align-items: flex-end;
+}
+
+.message-name {
+  font-size: 12px;
+  color: #999;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: #f5f5f5;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.message-mine .message-bubble {
+  background: #f8c146;
+  color: #3a2a00;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.message-input .ant-input {
+  flex: 1;
+  border-radius: 10px;
 }

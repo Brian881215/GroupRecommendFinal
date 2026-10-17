@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Spin, message, Button, InputNumber } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import BottomNav from '../../Bottom/BottomNav';
 import './GroupPage.css';
 import {
@@ -112,7 +113,7 @@ const GroupPage = () => {
 
   if (!groupInfo) {
     return (
-      <div className="group-container" style={{ textAlign: 'center', paddingTop: 80 }}>
+      <div className="group-loading">
         <Spin size="large" />
       </div>
     );
@@ -130,14 +131,75 @@ const GroupPage = () => {
   const sourceFavorites = { A: voting.favoritedA, B: voting.favoritedB };
 
   return (
-    <div className="group-container">
-      <GroupHeader
-        groupInfo={groupInfo}
-        memberCount={groupMembers.length}
-        onViewMembers={() => setMembersModalOpen(true)}
-        isCreator={isCreator}
-        onStartRecommend={() => setStartRecommendModalOpen(true)}
-      />
+    <div className="group-page">
+      <div className="group-layout">
+        <aside className="group-side">
+          <GroupHeader
+            groupInfo={groupInfo}
+            memberCount={groupMembers.length}
+            onViewMembers={() => setMembersModalOpen(true)}
+            isCreator={isCreator}
+            onStartRecommend={() => setStartRecommendModalOpen(true)}
+          />
+        </aside>
+
+        <div className="group-main">
+          {groupInfo.recommendationFlag && (
+            <div className="groupPageOuter">
+              <div className="recommendListDesc">
+                <InfoCircleOutlined className="recommendListDescIcon" />
+                <span>
+                  請填寫兩個推薦清單評分並各選擇一到多個餐廳到最愛,創建群組者需填寫你們最終討論出來的餐廳
+                </span>
+              </div>
+              {orderedSources.map((source, index) => {
+                const listNumber = index + 1;
+                return (
+                  <RecommendationList
+                    key={source}
+                    listNumber={listNumber}
+                    restaurants={sourceData[source] || []}
+                    favoritedIds={sourceFavorites[source]}
+                    onToggleFavorite={(restaurantId) => voting.toggleFavorite(source, restaurantId)}
+                    score={sourceScore[source]}
+                    onScoreChange={setSourceScore[source]}
+                    extra={isCreator && listNumber === 2 && (
+                      <div className="ratingInput">
+                        <label>最終選擇餐廳</label>
+                        <InputNumber
+                          min={1}
+                          max={14}
+                          placeholder="1-14"
+                          value={voting.groupDecision}
+                          onChange={voting.setGroupDecision}
+                        />
+                      </div>
+                    )}
+                  />
+                );
+              })}
+              <Button
+                type="primary"
+                block
+                size="large"
+                disabled={voting.submitted}
+                className="recommend-submit2"
+                onClick={voting.submit}
+              >
+                提交
+              </Button>
+            </div>
+          )}
+
+          <GroupChatBox
+            messages={messages}
+            newMessage={newMessage}
+            onChangeMessage={setNewMessage}
+            onSend={handleSendMessage}
+            currentUserId={userId}
+          />
+        </div>
+      </div>
 
       <GroupMembersModal
         open={membersModalOpen}
@@ -149,57 +211,6 @@ const GroupPage = () => {
         open={startRecommendModalOpen}
         onConfirm={handleConfirmStartRecommend}
         onCancel={() => setStartRecommendModalOpen(false)}
-      />
-
-      {groupInfo.recommendationFlag && (
-        <div className="groupPageOuter">
-          <div className="recommendListDesc">
-            請填寫兩個推薦清單評分並各選擇一到多個餐廳到最愛,創建群組者需填寫你們最終討論出來的餐廳
-          </div>
-          {orderedSources.map((source, index) => {
-            const listNumber = index + 1;
-            return (
-              <RecommendationList
-                key={source}
-                listNumber={listNumber}
-                restaurants={sourceData[source] || []}
-                favoritedIds={sourceFavorites[source]}
-                onToggleFavorite={(restaurantId) => voting.toggleFavorite(source, restaurantId)}
-                score={sourceScore[source]}
-                onScoreChange={setSourceScore[source]}
-                extra={isCreator && listNumber === 2 && (
-                  <div className="ratingInput">
-                    <label>最終選擇餐廳</label>
-                    <InputNumber
-                      min={1}
-                      max={14}
-                      placeholder="1-14"
-                      value={voting.groupDecision}
-                      onChange={voting.setGroupDecision}
-                    />
-                  </div>
-                )}
-              />
-            );
-          })}
-          <div className="group-button">
-            <Button
-              type="primary"
-              disabled={voting.submitted}
-              className="recommend-submit2"
-              onClick={voting.submit}
-            >
-              提交
-            </Button>
-          </div>
-        </div>
-      )}
-
-      <GroupChatBox
-        messages={messages}
-        newMessage={newMessage}
-        onChangeMessage={setNewMessage}
-        onSend={handleSendMessage}
       />
 
       <BottomNav />
