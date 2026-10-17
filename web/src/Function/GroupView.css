@@ -1,138 +1,110 @@
-/* 
+/* 頁面外框:border-box 讓底部留白算在最小高度裡,否則會固定多出一段可捲動空白 */
+.group-view-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 88px; /* 留給底部導覽列(高 77px) */
+}
 
-.group-view {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    margin: 0 auto;
-    padding-bottom: 100px;
-    padding: 5px 15px;
-  }
-  
-  .group-view h2 {
-    text-align: center;
-    background-image: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
-    color: white;
-    margin: 0;
-    margin-bottom: 5px;
-    padding: 4px 1.5px;
-    font-size: 1.5rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-  
-  .groups-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 3px 3px;
-    padding-bottom: 100px;
-  }
-  
-  .group-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: box-shadow 0.3s ease-in-out;
-    position: relative;
-  }
-  
-  .group-card:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-  
-  .group-card-top-right {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 2;
-  }
-  
-  .groupIcon {
-    margin-bottom: -5px;
-    margin-left: 3px;
-  }
-  
-  .addDisabled {
-    opacity: 0.5;
-  }
-  
-  .viewGroupTitle {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  
-  .viewDiningTime {
-    margin-top: 0;
-    color: green;
-    font-size: 12px;
-    margin-bottom: 5px;
-  }
- 
-  .viewGroupDescription {
-    margin-top: 0;
-  }
-  
-  .view-group-button {
-    padding: 8px 16px;
-    margin-top: 3px;
-    margin-left: 10px;
-    background-color: #f8c146;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .view-group-button:hover {
-    background-color: #e6b042;
-  }
+.group-view-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
 
-  .browseGroupPurpose {
-    margin-bottom: 0;
-  }
-   */
+.group-view-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}
 
-   .group-view-container {
-    /* background-color: #f0f2f5; */
-    min-height: 100vh;
-  }
-  
-  .group-view-card {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  }
-  
-  .group-view-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-  }
-  
-  /* 讓 Card 的 Action 區域（按鈕）背景變淺色，增加點擊感 */
-  .ant-card-actions {
-    background: #fafafa !important;
-    border-top: 1px solid #f0f0f0 !important;
-  }
-  
-  /* 標題加粗 */
-  .ant-typography h4 {
-    margin-top: 4px !important;
-    color: #1f1f1f;
-  }
-  
-  /* 針對小螢幕微調 */
-  @media (max-width: 576px) {
-    .group-view-container {
-      padding: 10px;
-    }
-    .ant-typography h2 {
-      font-size: 1.5rem !important;
-    }
-  }
+.group-view-empty {
+  margin-top: 100px;
+}
+
+/* 卡片網格:與 BrowsePage 一致 */
+.group-view-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.group-view-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.group-view-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.group-view-card .ant-card-body {
+  flex: 1;
+  padding: 16px;
+}
+
+/* 同一排的卡片等高,按鈕貼底 */
+.group-view-card-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.group-view-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.group-view-tag.ant-tag {
+  margin: 0;
+  color: #a87b0a;
+  background: #fff7e0;
+  border-color: #f8c146;
+}
+
+.group-view-tag-owner.ant-tag {
+  color: #fff;
+  background: #f8c146;
+}
+
+.group-view-card .group-view-card-title.ant-typography {
+  margin: 0;
+}
+
+.group-view-card .group-view-card-desc.ant-typography {
+  margin: 0;
+  color: #666;
+  min-height: 44px;
+}
+
+.group-view-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.group-view-card .group-view-gold-btn {
+  margin-top: 10px;
+}
+
+.group-view-gold-btn.ant-btn {
+  background-color: #f8c146;
+  border-color: #f8c146;
+  font-weight: 600;
+}
+
+.group-view-gold-btn.ant-btn:not(:disabled):hover {
+  background-color: #e6b042 !important;
+  border-color: #e6b042 !important;
+}
