@@ -1,0 +1,181 @@
+.group-container {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+
+.group-photo-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.group-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-position: center;
+}
+
+.title-with-time {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.group-title {
+  margin: 0 !important;
+}
+
+.dining-time {
+  color: green;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.group-description {
+  font-size: 15px;
+}
+
+.group-details {
+  margin: 15px;
+}
+
+.group-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.recommend-submit,
+.recommend-submit2 {
+  background-color: #f8c146;
+  border-color: #f8c146;
+  margin-bottom: 15px;
+}
+
+.recommend-submit:hover,
+.recommend-submit2:hover {
+  background-color: #e6b042 !important;
+  border-color: #e6b042 !important;
+}
+
+.recommend-submit:disabled,
+.recommend-submit2:disabled {
+  background-color: #f7d488 !important;
+  border-color: #f7d488 !important;
+}
+
+.group-member-item {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.group-member-item:hover {
+  background-color: #fafafa;
+}
+
+.group-messages {
+  margin: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.message-input {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.message-input .ant-input {
+  flex: 1;
+  border-radius: 10px;
+}
+
+.recommendListDesc {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.recommendation-card {
+  position: relative;
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.recommendation-card-content {
+  padding-right: 32px;
+}
+
+.favorite-button {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  z-index: 2;
+}
+
+.more-info {
+  display: inline-block;
+  margin-top: 6px;
+  font-style: italic;
+  text-decoration: underline;
+  color: darkgoldenrod;
+}
+
+.restaurant-tags {
+  margin: 4px 0;
+}
+
+.restaurant-address {
+  margin: 3px 0 5px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.restaurant-name {
+  margin: 5px 0 0;
+}
+
+.starIcon {
+  margin-right: 2px;
+}
+
+.recommendList10 {
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+.ratingInput {
+  text-align: center;
+}
+
+.ratingInput label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ratingInput .ant-input-number {
+  width: 80px;
+}
