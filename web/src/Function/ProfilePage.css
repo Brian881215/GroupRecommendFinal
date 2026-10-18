@@ -16,7 +16,18 @@
   gap: 16px;
 }
 
-/* 標題與 BrowsePage 一致:antd Title level 2、靠左 */
+/* 標題與 BrowsePage 一致:antd Title level 2、靠左;登出按鈕靠右 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-login-status {
+  color: rgba(0, 0, 0, 0.55);
+}
+
 .profile-header-title.ant-typography {
   margin-bottom: 0;
 }

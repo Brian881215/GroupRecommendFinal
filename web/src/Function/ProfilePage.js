@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import BottomNav from '../Bottom/BottomNav';
 import './ProfilePage.css'; // 記得創建一個對應的CSS檔案
 import { useParams,useNavigate } from 'react-router-dom';
-import { Card, Descriptions, Tag, Progress, Spin, Typography } from 'antd';
-import { TrophyOutlined, CalendarOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { Badge, Button, Card, Descriptions, Modal, Tag, Progress, Spin, Typography, message } from 'antd';
+import { TrophyOutlined, CalendarOutlined, CheckCircleFilled, LogoutOutlined } from '@ant-design/icons';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -160,9 +160,8 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (!effectiveUserId) {
-            console.error('No user ID found in localStorage.');
-            //此邏輯設計很好這樣才可以透過重新登入來渲染畫面
-            // navigate('/');  
+            // 沒有登入(例如已登出):回首頁重新登入
+            navigate('/', { replace: true });
             return;
         }
       // 這裡假設你有一個後端的API端點 '/api/profile/{userId}'
@@ -203,6 +202,23 @@ const ProfilePage = () => {
         });
     }, [navigate, effectiveUserId, apiUrl]);//添加userID依賴確保
 
+    // 登出:只清掉登入資訊(其他 localStorage 記錄保留),回首頁重新登入
+    const handleLogout = () => {
+        Modal.confirm({
+            title: '確定要登出嗎?',
+            okText: '登出',
+            cancelText: '取消',
+            okButtonProps: { danger: true },
+            centered: true,
+            onOk: () => {
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                message.success('已登出');
+                navigate('/');
+            },
+        });
+    };
+
     // 如果數據還沒加載，顯示加載提示
     if (!profile) {
       return (
@@ -216,9 +232,23 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-layout">
         <header className="profile-header">
-          <Title level={2} className="profile-header-title">
-            {isOwnProfile ? '我的個人資料' : '個人資料'}
-          </Title>
+          <div>
+            <Title level={2} className="profile-header-title">
+              {isOwnProfile ? '我的個人資料' : '個人資料'}
+            </Title>
+            {isOwnProfile && (
+              <Badge
+                status="success"
+                text={`已登入:${localStorage.getItem('userName') || profile.name}`}
+                className="profile-login-status"
+              />
+            )}
+          </div>
+          {isOwnProfile && (
+            <Button danger icon={<LogoutOutlined />} onClick={handleLogout}>
+              登出
+            </Button>
+          )}
         </header>
         {/* 左欄:個人卡(電腦版捲動時固定) */}
         <aside className="profile-side">
