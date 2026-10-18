@@ -68,20 +68,6 @@
   margin-bottom: 0;
 }
 
-.create-section-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-}
-
-.create-section-accent {
-  width: 5px;
-  height: 18px;
-  border-radius: 3px;
-  background: #f8c146;
-}
-
 /* 封面上傳:整個 16:10 預覽框都是點擊區 */
 .create-cover-item .ant-form-item-label {
   display: none;

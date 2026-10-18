@@ -96,20 +96,6 @@ label {
   margin-bottom: -24px; /* 抵銷 antd 欄位的 24px 下方間距 */
 }
 
-.signup-section-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-}
-
-.signup-section-accent {
-  width: 5px;
-  height: 18px;
-  border-radius: 3px;
-  background: #f8c146;
-}
-
 /* 兩個欄位一排;窄螢幕自動變一欄 */
 .signup-row {
   display: grid;

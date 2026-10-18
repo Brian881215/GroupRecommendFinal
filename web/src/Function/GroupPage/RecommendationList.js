@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button, InputNumber, Tag } from 'antd';
 import { HeartOutlined, HeartFilled, StarFilled } from '@ant-design/icons';
-import SectionTitle from './SectionTitle';
+import SectionTitle from '../../components/common/SectionTitle';
 
 function cleanTags(tagsString) {
   if (!tagsString) return [];

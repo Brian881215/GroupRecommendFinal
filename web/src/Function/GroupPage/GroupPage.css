@@ -63,20 +63,6 @@
   padding-top: 16px;
 }
 
-.group-section-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-}
-
-.group-section-accent {
-  width: 5px;
-  height: 18px;
-  border-radius: 3px;
-  background: #f8c146;
-}
-
 /* 群組資訊 */
 .group-cover-icon {
   font-size: 56px;

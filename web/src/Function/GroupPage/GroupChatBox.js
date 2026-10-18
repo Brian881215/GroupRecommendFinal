@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, Input, Button, Card } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import SectionTitle from './SectionTitle';
+import SectionTitle from '../../components/common/SectionTitle';
 
 export default function GroupChatBox({ messages, newMessage, onChangeMessage, onSend, currentUserId }) {
   return (

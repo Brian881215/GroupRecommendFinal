@@ -8,16 +8,9 @@ import {
   DollarOutlined,
 } from '@ant-design/icons';
 import GroupCover from '../GroupCover';
+import formatDateTime from '../../utils/formatDateTime';
 
 const { Title, Paragraph } = Typography;
-
-function formatDate(dateString) {
-  const options = {
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', hour12: false,
-  };
-  return new Date(dateString).toLocaleString('zh-TW', options);
-}
 
 const InfoItem = ({ icon, label, children }) => (
   <li className="group-info-item">
@@ -45,7 +38,7 @@ export default function GroupHeader({ groupInfo, memberCount, onViewMembers, isC
 
       <ul className="group-info-list">
         <InfoItem icon={<ClockCircleOutlined />} label="聚餐時間">
-          {formatDate(groupInfo.diningTime)}
+          {formatDateTime(groupInfo.diningTime)}
         </InfoItem>
         <InfoItem icon={<EnvironmentOutlined />} label="集合地點">
           {groupInfo.meetingPlace}

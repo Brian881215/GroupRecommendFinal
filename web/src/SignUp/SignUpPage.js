@@ -7,6 +7,7 @@ import {
 import { CameraOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { readAndCompressImage } from 'browser-image-resizer';
+import SectionTitle from '../components/common/SectionTitle';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -16,14 +17,6 @@ const GENDERS = ['男', '女', '其他'];
 const GRADES = ['大一', '大二', '大三', '大四', '碩一', '碩二', '已畢業'];
 
 const toOptions = (values) => values.map((value) => ({ value, label: value }));
-
-// 卡片標題:左側金色色條 + 標題(與 CreatePage 的區塊標題一致)
-const SectionTitle = ({ children }) => (
-  <span className="signup-section-title">
-    <span className="signup-section-accent" />
-    {children}
-  </span>
-);
 
 // 個人封面照:4:5 預覽框(與 ProfilePage 的個人照同比例),點擊上傳。
 // 放在 Form.Item 裡,value/onChange 由表單注入,驗證「必填」也走表單。

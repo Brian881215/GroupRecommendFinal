@@ -9,17 +9,10 @@ import {
 } from '@ant-design/icons';
 import BottomNav from '../Bottom/BottomNav';
 import GroupCover from './GroupCover';
+import formatDateTime from '../utils/formatDateTime';
 import "./GroupView.css";
 
 const { Title, Text, Paragraph } = Typography;
-
-const formatDate = (dateString) => {
-  const options = {
-    year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', hour12: false
-  };
-  return new Date(dateString).toLocaleString('zh-TW', options);
-};
 
 const GroupView = () => {
   const [userGroups, setUserGroups] = useState([]);
@@ -105,7 +98,7 @@ const GroupView = () => {
                       {group.title}
                     </Title>
                     <Text type="secondary">
-                      <ClockCircleOutlined /> {formatDate(group.diningTime)}
+                      <ClockCircleOutlined /> {formatDateTime(group.diningTime)}
                     </Text>
                     <Paragraph
                       className="group-view-card-desc"
@@ -128,6 +121,10 @@ const GroupView = () => {
                       block
                       icon={<ArrowRightOutlined />}
                       className="group-view-gold-btn"
+                      onClick={(e) => {
+                        e.stopPropagation(); // 不再冒泡到卡片,避免同一次點擊導頁兩次
+                        handleViewNavigate(group.id);
+                      }}
                     >
                       進入群組
                     </Button>

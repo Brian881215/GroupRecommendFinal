@@ -6,18 +6,11 @@ import {
 import { CameraOutlined, DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { readAndCompressImage } from 'browser-image-resizer';
 import BottomNav from '../Bottom/BottomNav';
+import SectionTitle from '../components/common/SectionTitle';
 import './CreatePage.css';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
-
-// 卡片標題:左側金色色條 + 標題
-const SectionTitle = ({ children }) => (
-  <span className="create-section-title">
-    <span className="create-section-accent" />
-    {children}
-  </span>
-);
 
 // 封面預覽:16:10,沒有照片時顯示金色漸層 + 群組標題(與 BrowsePage 的預設封面一致)
 // 標題在這裡 watch,打字時只重繪預覽,不重繪整個表單

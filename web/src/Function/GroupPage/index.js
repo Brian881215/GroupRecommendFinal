@@ -149,7 +149,7 @@ const GroupPage = () => {
               <div className="recommendListDesc">
                 <InfoCircleOutlined className="recommendListDescIcon" />
                 <span>
-                  請填寫兩個推薦清單評分並各選擇一到多個餐廳到最愛,創建群組者需填寫你們最終討論出來的餐廳
+                  請填寫兩個推薦清單評分並各選擇一到多個餐廳到最愛,主揪需填寫你們最終討論出來的餐廳
                 </span>
               </div>
               {orderedSources.map((source, index) => {
