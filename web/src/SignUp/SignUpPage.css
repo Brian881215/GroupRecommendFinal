@@ -1,73 +1,218 @@
 /* SignUpPage.css */
-  body {
-    background-color: #fff8ef; /* 这是米色的色值 */
-  }
-  .signup-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .signup-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .signup-container input,
-  .signup-container select,
-  .signup-container textarea {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .signup-container button {
-    padding: 10px;
-    background-color: #f8c146;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .signup-container button:hover {
-    background-color: #e5a634;
-  }
-  
-  /* 调整文件上传按钮样式 */
-  #photo-upload {
-    border: 1px dashed #ccc;
-    display: block;
-    margin-bottom: 10px;
-    padding: 10px;
-    cursor: pointer;
-  }
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
- 
-  .signup-error {
-    position: absolute;  
-    top: 715px;  
-    left: 0;
-    right: 0;
-    color: red;
-    text-align: center; 
-    font-size: 0.8rem;
-  }
-  
-  .custom-datepicker input {
-    width: 200px; /* 或者更宽，根据需要调整 */
+body {
+  background-color: #fff8ef; /* 米色 */
+}
+
+/* 注意:這是全站規則(CRA 會把所有 CSS 合併)。FoodRatingPage、TKITest、
+   GroupPage 的 label 與 antd 表單標籤都依賴它,移除前要一起檢查那些頁面。 */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* 手機:單欄由上往下(封面照 → 三張表單卡 → 下一步);
+   約 992px 以上:左欄封面照 sticky + 右欄表單 */
+.signup-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 32px;
+  background-color: #fff8ef;
+}
+
+.signup-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signup-header-title.ant-typography {
+  margin-bottom: 4px;
+}
+
+.signup-header-login {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.signup-header-login a {
+  color: #e5a634;
+  font-weight: 600;
+}
+
+.signup-side,
+.signup-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+@media (min-width: 992px) {
+  .signup-layout {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
   }
 
-  .signupConfirm-text{
-    font-size: 12px;
-    text-align: center;
-    color: #2c2a2a;
-    margin-bottom: 5px;
+  .signup-header {
+    flex: 0 0 100%;
   }
+
+  .signup-side {
+    flex: 0 0 320px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .signup-main {
+    flex: 1;
+  }
+}
+
+/* 卡片 */
+.signup-card {
+  border-radius: 12px;
+}
+
+.signup-card .ant-card-head {
+  border-bottom: none;
+  min-height: 0;
+  padding-top: 16px;
+}
+
+/* 只拿掉卡片最後一個欄位的下方間距;不能用 .ant-form-item:last-child,
+   否則每一排兩欄裡的第二欄也會被拿掉,手機變單欄時欄位會黏在一起 */
+.signup-card .ant-card-body > .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+
+.signup-card .ant-card-body > .signup-row:last-child {
+  margin-bottom: -24px; /* 抵銷 antd 欄位的 24px 下方間距 */
+}
+
+.signup-section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.signup-section-accent {
+  width: 5px;
+  height: 18px;
+  border-radius: 3px;
+  background: #f8c146;
+}
+
+/* 兩個欄位一排;窄螢幕自動變一欄 */
+.signup-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  column-gap: 16px;
+}
+
+/* 個人封面照:4:5,整個預覽框都是點擊區 */
+.signup-photo-item {
+  margin-bottom: 0;
+}
+
+.signup-photo-upload,
+.signup-photo-upload .ant-upload {
+  display: block;
+  width: 100%;
+}
+
+.signup-photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f5ecd7;
+  cursor: pointer;
+}
+
+/* 手機上照片不要佔滿整個螢幕高度 */
+@media (max-width: 991px) {
+  .signup-photo {
+    max-width: 288px; /* 4:5 → 最高 360px */
+    margin: 0 auto;
+  }
+}
+
+/* 高度由 aspect-ratio 決定,子層要絕對定位填滿(height:100% 會變 0) */
+.signup-photo-img,
+.signup-photo-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.signup-photo-img {
+  object-fit: cover;
+}
+
+.signup-photo-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8c146 0%, #f0a43a 100%);
+  color: #fff;
+  font-weight: 600;
+}
+
+.signup-photo-fallback-icon {
+  font-size: 40px;
+}
+
+.signup-photo-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* 提醒與送出 */
+.signup-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  background-color: #fffbe6;
+}
+
+.signup-notice-icon {
+  margin-top: 4px;
+  color: #faad14;
+}
+
+.signup-submit.ant-btn {
+  height: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  background-color: #f8c146;
+  border-color: #f8c146;
+}
+
+.signup-submit.ant-btn:not(:disabled):hover {
+  background-color: #e6b042 !important;
+  border-color: #e6b042 !important;
+}
