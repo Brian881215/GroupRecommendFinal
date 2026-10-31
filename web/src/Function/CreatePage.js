@@ -93,7 +93,7 @@ const CreatePage = () => {
       photo: photoBase64,
       meetingPlace: values.meetingPlace,
       maxNumber: values.maxNumber,
-      districts: values.districts ? values.districts.join(', ') : '',
+      districts: values.districts ?? [],
       price: values.price,
       diningTime: values.diningTime.toISOString(),
     };
@@ -221,7 +221,7 @@ const CreatePage = () => {
                   name="maxNumber"
                   rules={[
                     { required: true, message: '請輸入人數' },
-                    { pattern: /^[2-9]|10$/, message: '請輸入 2-10 之間的整數' }
+                    { pattern: /^([2-9]|10)$/, message: '請輸入 2-10 之間的整數' }
                   ]}
                 >
                   <Input placeholder="e.g. 5" type="number" suffix="人" />

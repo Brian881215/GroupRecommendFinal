@@ -89,6 +89,7 @@ test('submits the group and shows a success message', async () => {
   const body = JSON.parse(options.body);
   expect(body.title).toBe('找人一起吃飯');
   expect(body.maxNumber).toBe('5');
+  expect(body.districts).toEqual([]); // 後端 CreateGroupRequest.districts 是 List<String>
 
   expect(await screen.findByText('群組創建成功！已獲得 25 積分')).toBeInTheDocument();
 });

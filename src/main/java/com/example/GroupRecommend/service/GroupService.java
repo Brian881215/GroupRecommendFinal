@@ -1,5 +1,6 @@
 package com.example.GroupRecommend.service;
 
+import com.example.GroupRecommend.dto.CreateGroupRequest;
 import com.example.GroupRecommend.dto.IndexedValue;
 import com.example.GroupRecommend.dto.RecommendGroupDTO;
 import com.example.GroupRecommend.dto.RecommendGroupPhotoDTO;
@@ -11,8 +12,7 @@ import com.example.GroupRecommend.repository.RecommendGroupRepository;
 import com.example.GroupRecommend.repository.RecommendRestaurantRepository;
 import com.example.GroupRecommend.repository.RecommendUserRepository;
 import com.example.GroupRecommend.utility.GroupPurpose;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,16 +20,34 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class GroupService {
-    @Autowired
-    private RecommendGroupRepository groupRepository;
-    @Autowired
-    private RecommendUserRepository userRepository;
-    @Autowired
-    private RecommendRestaurantRepository restaurantRepository;
+    private final RecommendGroupRepository groupRepository;
+    private final RecommendUserRepository userRepository;
+    private final RecommendRestaurantRepository restaurantRepository;
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public RecommendGroup createGroup(Long creatorId, CreateGroupRequest request) {
+        RecommendUser creator = userService.findUserByUserId(creatorId);
+
+        RecommendGroup group = new RecommendGroup();
+        group.setTitle(request.getTitle());
+        group.setDescription(request.getDescription());
+        group.setPurpose(request.getPurpose());
+        group.setPhoto(request.getPhoto());
+        group.setMeetingPlace(request.getMeetingPlace());
+        group.setMaxNumber(request.getMaxNumber());
+        group.setDistricts(request.getDistricts() == null ? null : String.join(", ", request.getDistricts()));
+        group.setPrice(request.getPrice());
+        group.setDiningTime(request.getDiningTime());
+
+        Set<RecommendUser> users = new HashSet<>();
+        users.add(creator);
+        group.setUsers(users);
+        group.setCreator(creator);
+
+        return groupRepository.save(group);
+    }
 
     // 添加加入请求
     public void addJoinRequest(Long groupId, Long userId) {

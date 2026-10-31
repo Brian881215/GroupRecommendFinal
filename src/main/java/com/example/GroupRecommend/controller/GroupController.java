@@ -9,10 +9,14 @@ import com.example.GroupRecommend.repository.RecommendRestaurantRepository;
 import com.example.GroupRecommend.repository.RecommendUserRepository;
 import com.example.GroupRecommend.service.GroupService;
 import com.example.GroupRecommend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,28 +25,22 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api/groups")
+@RequiredArgsConstructor
+@Tag(name = "Group", description = "Group creation, membership, and recommendation endpoints")
 public class GroupController {
-    @Autowired
-    private RecommendGroupRepository groupRepository;
-    @Autowired
-    private RecommendUserRepository userRepository;
-    @Autowired
-    private RecommendRestaurantRepository recommendRestaurantRepository;
-    @Autowired
-    private GroupService groupService;
-    @Autowired
-    private UserService userService;
-    @PostMapping("/{id}")
-    public ResponseEntity<RecommendGroup> createGroup(@PathVariable("id") Long id, @RequestBody RecommendGroup group) {
-        //你首先保存了 group 实体，然后添加了用户到 group。这种顺序在某些情况下可能会导致 Hibernate 或 JPA
-        //框架无法正确更新关系表。尤其是在新建实体的时候，先保存实体再建立关联可能导致关联未能持久化。
-        Set<RecommendUser> users = new HashSet<>();
-        RecommendUser user = userService.findUserByUserId(id);
-        users.add(user);
-        group.setUsers(users);
-        group.setCreator(user);
+    private final RecommendGroupRepository groupRepository;
+    private final RecommendUserRepository userRepository;
+    private final RecommendRestaurantRepository recommendRestaurantRepository;
+    private final GroupService groupService;
+    private final UserService userService;
 
-        RecommendGroup savedGroup = groupRepository.save(group);
+    @Operation(summary = "Create a group", description = "Creates a new group with the given creator as its first member")
+    @ApiResponse(responseCode = "201", description = "Group created")
+    @ApiResponse(responseCode = "400", description = "Validation failed")
+    @ApiResponse(responseCode = "404", description = "Creator user not found")
+    @PostMapping("/{id}")
+    public ResponseEntity<RecommendGroup> createGroup(@PathVariable("id") Long id, @Valid @RequestBody CreateGroupRequest request) {
+        RecommendGroup savedGroup = groupService.createGroup(id, request);
         return new ResponseEntity<>(savedGroup, HttpStatus.CREATED);
     }
 

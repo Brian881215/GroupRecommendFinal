@@ -5,7 +5,7 @@ import com.example.GroupRecommend.entity.RecommendUser;
 import com.example.GroupRecommend.exception.ResourceNotFoundException;
 import com.example.GroupRecommend.repository.RecommendGroupRepository;
 import com.example.GroupRecommend.repository.RecommendUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,13 +15,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private RecommendUserRepository recommendUserRepository;
-
-    @Autowired
-    private RecommendGroupRepository recommendGroupRepository;
+    private final RecommendUserRepository recommendUserRepository;
+    private final RecommendGroupRepository recommendGroupRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     public RecommendUser findByEmail(String email) {
