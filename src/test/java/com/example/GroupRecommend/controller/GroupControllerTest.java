@@ -1,4 +1,4 @@
-package com.example.GroupRecommend.Controller;
+package com.example.GroupRecommend.controller;
 
 import com.example.GroupRecommend.controller.GroupController;
 import com.example.GroupRecommend.dto.RecommendGroupPhotoDTO;
